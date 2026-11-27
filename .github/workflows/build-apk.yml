@@ -29,6 +29,17 @@ jobs:
       - name: Generate platform folders
         run: flutter create --platforms=android --project-name mishkat --org com.mishkat .
 
+      - name: Enable core library desugaring
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p = Path('android/app/build.gradle.kts')
+          s = p.read_text()
+          s = s.replace('compileOptions {', 'compileOptions {\n            isCoreLibraryDesugaringEnabled = true', 1)
+          s = s.replace('dependencies {', 'dependencies {\n    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.4")', 1)
+          p.write_text(s)
+          PY
+
       - name: Remove Flutter template test
         run: rm -f test/widget_test.dart
 
