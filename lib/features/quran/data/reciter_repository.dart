@@ -132,7 +132,7 @@ class ReciterRepository {
             path: Value(target.path),
             bytes: Value(bytes.length),
             sha256: Value(sha),
-            lastAccessedAt: DateTime.now(),
+            lastAccessedAt: Value(DateTime.now()),
           ),
         );
       }
