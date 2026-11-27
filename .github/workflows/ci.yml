@@ -31,9 +31,9 @@ jobs:
           channel: stable
           cache: true
       - run: flutter pub get
+      - run: dart format --output=none --set-exit-if-changed lib test packages
       - run: flutter gen-l10n
       - run: dart run build_runner build --delete-conflicting-outputs
-      - run: dart format --output=none --set-exit-if-changed lib test packages
       - run: flutter analyze
       - run: flutter test
 
