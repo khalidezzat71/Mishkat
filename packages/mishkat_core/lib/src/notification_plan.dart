@@ -47,31 +47,35 @@ class NotificationPlan {
         final base = times[prayer] ?? day;
         final offset = minuteOffsets[prayer] ?? 0;
         final fireAt = base.add(Duration(minutes: offset));
-        slots.add(NotificationSlot(
-          key: 'adhan:$dateKey:${prayer.name}',
-          kind: NotificationKind.adhan,
-          fireAt: fireAt,
-          prayer: prayer,
-        ));
+        slots.add(
+          NotificationSlot(
+            key: 'adhan:$dateKey:${prayer.name}',
+            kind: NotificationKind.adhan,
+            fireAt: fireAt,
+            prayer: prayer,
+          ),
+        );
 
         // التذكيرات المساندة تُجدول ليوم واحد فقط لتجنّب تجاوز سقف iOS.
         if (d == 0) {
-          slots.add(NotificationSlot(
-            key: 'pre:$dateKey:${prayer.name}',
-            kind: NotificationKind.preReminder,
-            fireAt: fireAt.subtract(
-              Duration(minutes: preReminderMinutes),
+          slots.add(
+            NotificationSlot(
+              key: 'pre:$dateKey:${prayer.name}',
+              kind: NotificationKind.preReminder,
+              fireAt: fireAt.subtract(Duration(minutes: preReminderMinutes)),
+              prayer: prayer,
             ),
-            prayer: prayer,
-          ));
+          );
           final iqamah = iqamahMinutes[prayer];
           if (iqamah != null) {
-            slots.add(NotificationSlot(
-              key: 'iqamah:$dateKey:${prayer.name}',
-              kind: NotificationKind.iqamah,
-              fireAt: fireAt.add(Duration(minutes: iqamah)),
-              prayer: prayer,
-            ));
+            slots.add(
+              NotificationSlot(
+                key: 'iqamah:$dateKey:${prayer.name}',
+                kind: NotificationKind.iqamah,
+                fireAt: fireAt.add(Duration(minutes: iqamah)),
+                prayer: prayer,
+              ),
+            );
           }
         }
       }
@@ -79,24 +83,30 @@ class NotificationPlan {
       if (d == 0) {
         final fajr = times[PrayerName.fajr] ?? day;
         final asr = times[PrayerName.asr] ?? day;
-        slots.add(NotificationSlot(
-          key: 'athkar:$dateKey:morning',
-          kind: NotificationKind.athkar,
-          fireAt: fajr.add(const Duration(minutes: 15)),
-          prayer: PrayerName.fajr,
-        ));
-        slots.add(NotificationSlot(
-          key: 'athkar:$dateKey:evening',
-          kind: NotificationKind.athkar,
-          fireAt: asr.add(const Duration(minutes: 15)),
-          prayer: PrayerName.asr,
-        ));
-        slots.add(NotificationSlot(
-          key: 'athkar:$dateKey:sleep',
-          kind: NotificationKind.athkar,
-          fireAt: DateTime(day.year, day.month, day.day, 22),
-          prayer: null,
-        ));
+        slots.add(
+          NotificationSlot(
+            key: 'athkar:$dateKey:morning',
+            kind: NotificationKind.athkar,
+            fireAt: fajr.add(const Duration(minutes: 15)),
+            prayer: PrayerName.fajr,
+          ),
+        );
+        slots.add(
+          NotificationSlot(
+            key: 'athkar:$dateKey:evening',
+            kind: NotificationKind.athkar,
+            fireAt: asr.add(const Duration(minutes: 15)),
+            prayer: PrayerName.asr,
+          ),
+        );
+        slots.add(
+          NotificationSlot(
+            key: 'athkar:$dateKey:sleep',
+            kind: NotificationKind.athkar,
+            fireAt: DateTime(day.year, day.month, day.day, 22),
+            prayer: null,
+          ),
+        );
       }
     }
     return slots;

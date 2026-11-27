@@ -17,12 +17,12 @@ class BackupPayload {
   final Map<String, String> entries;
 
   String toCanonicalJson() => jsonEncode({
-        'version': version,
-        'createdAt': createdAt.toUtc().toIso8601String(),
-        'entries': Map.fromEntries(
-          entries.entries.toList()..sort((a, b) => a.key.compareTo(b.key)),
-        ),
-      });
+    'version': version,
+    'createdAt': createdAt.toUtc().toIso8601String(),
+    'entries': Map.fromEntries(
+      entries.entries.toList()..sort((a, b) => a.key.compareTo(b.key)),
+    ),
+  });
 
   String get checksum =>
       sha256.convert(utf8.encode(toCanonicalJson())).toString();
@@ -44,13 +44,13 @@ class EncryptedBackup {
   final String checksum;
 
   String toJson() => jsonEncode({
-        'format': 'mishkat-backup-v1',
-        'version': version,
-        'createdAt': createdAt.toUtc().toIso8601String(),
-        'iv': iv,
-        'data': cipherText,
-        'sha256': checksum,
-      });
+    'format': 'mishkat-backup-v1',
+    'version': version,
+    'createdAt': createdAt.toUtc().toIso8601String(),
+    'iv': iv,
+    'data': cipherText,
+    'sha256': checksum,
+  });
 
   factory EncryptedBackup.fromJson(String raw) {
     final decoded = jsonDecode(raw) as Map<String, dynamic>;
@@ -77,9 +77,9 @@ class BackupCodec {
     if (passphrase.length < 8) {
       throw ArgumentError.value(passphrase, 'passphrase', 'at least 8 chars');
     }
-    final key = enc.Key(Uint8List.fromList(
-      sha256.convert(utf8.encode(passphrase)).bytes,
-    ));
+    final key = enc.Key(
+      Uint8List.fromList(sha256.convert(utf8.encode(passphrase)).bytes),
+    );
     final iv = enc.IV.fromSecureRandom(16);
     final encrypter = enc.Encrypter(enc.AES(key, mode: enc.AESMode.cbc));
     final encrypted = encrypter.encrypt(payload.toCanonicalJson(), iv: iv);
@@ -93,15 +93,17 @@ class BackupCodec {
   }
 
   BackupPayload decrypt(EncryptedBackup backup, String passphrase) {
-    final key = enc.Key(Uint8List.fromList(
-      sha256.convert(utf8.encode(passphrase)).bytes,
-    ));
+    final key = enc.Key(
+      Uint8List.fromList(sha256.convert(utf8.encode(passphrase)).bytes),
+    );
     final iv = enc.IV.fromBase64(backup.iv);
     final encrypter = enc.Encrypter(enc.AES(key, mode: enc.AESMode.cbc));
     late final String plain;
     try {
-      plain = encrypter.decrypt(enc.Encrypted.fromBase64(backup.cipherText),
-          iv: iv);
+      plain = encrypter.decrypt(
+        enc.Encrypted.fromBase64(backup.cipherText),
+        iv: iv,
+      );
     } on Object {
       throw const FormatException('wrong passphrase or corrupted backup');
     }

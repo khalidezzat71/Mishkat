@@ -6,8 +6,9 @@ import 'package:test/test.dart';
 
 void main() {
   test('كل ملفات ARB تحتوي على نفس مفاتيح الواجهة', () {
-    final dir =
-        Directory(p.join(Directory.current.path, '..', '..', 'lib', 'l10n'));
+    final dir = Directory(
+      p.join(Directory.current.path, '..', '..', 'lib', 'l10n'),
+    );
     final locales = ['ar', 'en', 'fr', 'ur', 'id'];
     Set<String>? reference;
 
@@ -24,9 +25,8 @@ void main() {
   });
 
   test('العربية هي لغة القالب والاحتياط', () {
-    final yaml = File(
-      p.join(Directory.current.path, '..', '..', 'l10n.yaml'),
-    ).readAsStringSync();
+    final yaml = File(p.join(Directory.current.path, '..', '..', 'l10n.yaml'))
+        .readAsStringSync();
     expect(yaml, contains('template-arb-file: app_ar.arb'));
   });
 }

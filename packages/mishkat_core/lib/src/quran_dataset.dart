@@ -30,17 +30,17 @@ class QuranAyah {
   final String textSearchExpanded;
 
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'surahId': surahId,
-        'ayahNo': ayahNo,
-        'page': page,
-        'juz': juz,
-        'hizb': hizb,
-        'quarter': quarter,
-        'textUthmani': textUthmani,
-        'textSearch': textSearch,
-        'textSearchExpanded': textSearchExpanded,
-      };
+    'id': id,
+    'surahId': surahId,
+    'ayahNo': ayahNo,
+    'page': page,
+    'juz': juz,
+    'hizb': hizb,
+    'quarter': quarter,
+    'textUthmani': textUthmani,
+    'textSearch': textSearch,
+    'textSearchExpanded': textSearchExpanded,
+  };
 }
 
 /// سورة مع بياناتها الوصفية.
@@ -60,12 +60,12 @@ class QuranSurah {
   final int ayahCount;
 
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'nameAr': nameAr,
-        'nameEn': nameEn,
-        'revelationType': revelationType,
-        'ayahCount': ayahCount,
-      };
+    'id': id,
+    'nameAr': nameAr,
+    'nameEn': nameEn,
+    'revelationType': revelationType,
+    'ayahCount': ayahCount,
+  };
 }
 
 class QuranDataset {
@@ -75,20 +75,15 @@ class QuranDataset {
   final List<QuranAyah> ayahs;
 
   String toJson() => jsonEncode({
-        'version': 1,
-        'source': 'Tanzil Uthmani v1.1 + metadata v1.0',
-        'surahs': surahs.map((s) => s.toJson()).toList(),
-        'ayahs': ayahs.map((a) => a.toJson()).toList(),
-      });
+    'version': 1,
+    'source': 'Tanzil Uthmani v1.1 + metadata v1.0',
+    'surahs': surahs.map((s) => s.toJson()).toList(),
+    'ayahs': ayahs.map((a) => a.toJson()).toList(),
+  });
 }
 
 class _Boundary {
-  const _Boundary({
-    required this.global,
-    this.page,
-    this.juz,
-    this.quarter,
-  });
+  const _Boundary({required this.global, this.page, this.juz, this.quarter});
 
   final int global;
   final int? page;
@@ -113,13 +108,15 @@ class QuranDatasetBuilder {
     for (final element in meta.root.findAllElements('sura')) {
       final index = int.parse(element.getAttribute('index')!);
       starts[index] = int.parse(element.getAttribute('start')!);
-      surahs.add(QuranSurah(
-        id: index,
-        nameAr: element.getAttribute('name') ?? '',
-        nameEn: element.getAttribute('ename') ?? '',
-        revelationType: element.getAttribute('type') ?? '',
-        ayahCount: int.parse(element.getAttribute('ayas') ?? '0'),
-      ));
+      surahs.add(
+        QuranSurah(
+          id: index,
+          nameAr: element.getAttribute('name') ?? '',
+          nameEn: element.getAttribute('ename') ?? '',
+          revelationType: element.getAttribute('type') ?? '',
+          ayahCount: int.parse(element.getAttribute('ayas') ?? '0'),
+        ),
+      );
     }
     surahs.sort((a, b) => a.id.compareTo(b.id));
 
@@ -127,28 +124,34 @@ class QuranDatasetBuilder {
     for (final element in meta.root.findAllElements('page')) {
       final sura = int.parse(element.getAttribute('sura')!);
       final aya = int.parse(element.getAttribute('aya')!);
-      pageBounds.add(_Boundary(
-        global: starts[sura]! + aya,
-        page: int.parse(element.getAttribute('index')!),
-      ));
+      pageBounds.add(
+        _Boundary(
+          global: starts[sura]! + aya,
+          page: int.parse(element.getAttribute('index')!),
+        ),
+      );
     }
     final juzBounds = <_Boundary>[];
     for (final element in meta.root.findAllElements('juz')) {
       final sura = int.parse(element.getAttribute('sura')!);
       final aya = int.parse(element.getAttribute('aya')!);
-      juzBounds.add(_Boundary(
-        global: starts[sura]! + aya,
-        juz: int.parse(element.getAttribute('index')!),
-      ));
+      juzBounds.add(
+        _Boundary(
+          global: starts[sura]! + aya,
+          juz: int.parse(element.getAttribute('index')!),
+        ),
+      );
     }
     final quarterBounds = <_Boundary>[];
     for (final element in meta.root.findAllElements('quarter')) {
       final sura = int.parse(element.getAttribute('sura')!);
       final aya = int.parse(element.getAttribute('aya')!);
-      quarterBounds.add(_Boundary(
-        global: starts[sura]! + aya,
-        quarter: int.parse(element.getAttribute('index')!),
-      ));
+      quarterBounds.add(
+        _Boundary(
+          global: starts[sura]! + aya,
+          quarter: int.parse(element.getAttribute('index')!),
+        ),
+      );
     }
 
     int resolve(List<_Boundary> bounds, int global) {
@@ -174,18 +177,20 @@ class QuranDatasetBuilder {
         final global = offset + ayahNo;
         final text = ayaElement.getAttribute('text') ?? '';
         final quarter = resolve(quarterBounds, global);
-        ayahs.add(QuranAyah(
-          id: global,
-          surahId: surahId,
-          ayahNo: ayahNo,
-          page: resolve(pageBounds, global),
-          juz: resolve(juzBounds, global),
-          hizb: ((quarter - 1) ~/ 4) + 1,
-          quarter: quarter,
-          textUthmani: text,
-          textSearch: normalizer.normalize(text),
-          textSearchExpanded: normalizer.normalizeExpanded(text),
-        ));
+        ayahs.add(
+          QuranAyah(
+            id: global,
+            surahId: surahId,
+            ayahNo: ayahNo,
+            page: resolve(pageBounds, global),
+            juz: resolve(juzBounds, global),
+            hizb: ((quarter - 1) ~/ 4) + 1,
+            quarter: quarter,
+            textUthmani: text,
+            textSearch: normalizer.normalize(text),
+            textSearchExpanded: normalizer.normalizeExpanded(text),
+          ),
+        );
       }
     }
     ayahs.sort((a, b) => a.id.compareTo(b.id));

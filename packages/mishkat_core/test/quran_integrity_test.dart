@@ -35,10 +35,7 @@ void main() {
         metadataXml: metadataXml,
       );
       expect(report.isValid, isFalse);
-      expect(
-        report.issues.any((i) => i.contains('SHA-256 mismatch')),
-        isTrue,
-      );
+      expect(report.issues.any((i) => i.contains('SHA-256 mismatch')), isTrue);
     });
 
     test('manifest قابل للإنتاج بصيغة JSON', () {

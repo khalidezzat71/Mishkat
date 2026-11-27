@@ -39,7 +39,8 @@ class QiblaCalculator {
     final deltaLambda = (kaabaLongitude - longitude) * math.pi / 180;
 
     final y = math.sin(deltaLambda) * math.cos(phi2);
-    final x = math.cos(phi1) * math.sin(phi2) -
+    final x =
+        math.cos(phi1) * math.sin(phi2) -
         math.sin(phi1) * math.cos(phi2) * math.cos(deltaLambda);
 
     final degrees = math.atan2(y, x) * 180 / math.pi;

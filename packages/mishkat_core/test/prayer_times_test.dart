@@ -61,8 +61,10 @@ void main() {
     });
 
     test('الطرق غير المعتمدة غير معروضة', () {
-      expect(SunniCalculationMethod.values.map((m) => m.name),
-          isNot(contains('algerian')));
+      expect(
+        SunniCalculationMethod.values.map((m) => m.name),
+        isNot(contains('algerian')),
+      );
     });
   });
 

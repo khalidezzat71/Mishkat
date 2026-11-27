@@ -7,11 +7,12 @@ import '../../../app/providers.dart';
 const prayerTimesService = PrayerTimesService();
 
 /// الإحداثيات لا تُرسل لأي خادم — تأتي من قائمة مدن محلية.
-final coordinatesProvider =
-    Provider<({double latitude, double longitude})?>((ref) {
-      final city = ref.watch(selectedCityProvider);
-      return (latitude: city.latitude, longitude: city.longitude);
-    });
+final coordinatesProvider = Provider<({double latitude, double longitude})?>((
+  ref,
+) {
+  final city = ref.watch(selectedCityProvider);
+  return (latitude: city.latitude, longitude: city.longitude);
+});
 
 final timeZoneNameProvider = Provider<String>((ref) {
   return ref.watch(selectedCityProvider).timeZone;

@@ -37,8 +37,7 @@ final notificationSlotsProvider = Provider<List<NotificationSlot>>((ref) {
         asr: asr,
       );
       return {
-        for (final name in PrayerName.values)
-          name: calculated.timeOf(name),
+        for (final name in PrayerName.values) name: calculated.timeOf(name),
       };
     },
     minuteOffsets: const {},

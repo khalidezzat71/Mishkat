@@ -111,12 +111,16 @@ void main() {
       final second = builder.build(verse, ratio: 0.5, seed: 7);
       expect(first, second);
       expect(
-          RecitationGrader.words(first).where((w) => w == '______').length, 2);
+        RecitationGrader.words(first).where((w) => w == '______').length,
+        2,
+      );
     });
 
     test('بذرة أخرى تعطي توزيعاً مختلفاً', () {
       expect(
-          builder.build(verse, seed: 1), isNot(builder.build(verse, seed: 2)));
+        builder.build(verse, seed: 1),
+        isNot(builder.build(verse, seed: 2)),
+      );
     });
   });
 }

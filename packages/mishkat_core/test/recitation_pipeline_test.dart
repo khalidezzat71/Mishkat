@@ -7,8 +7,10 @@ class _FakeProxy implements RecitationProxy {
   final String text;
 
   @override
-  Future<String> transcribe(List<int> audioBytes,
-      {required String locale}) async {
+  Future<String> transcribe(
+    List<int> audioBytes, {
+    required String locale,
+  }) async {
     return text;
   }
 }
@@ -56,10 +58,7 @@ void main() {
 
     test('يعمل مع عقد الوكيل دون معرفة مصدر الصوت', () async {
       const proxy = _FakeProxy('بسم الله');
-      final recognized = await proxy.transcribe(
-        const [1, 2, 3],
-        locale: 'ar',
-      );
+      final recognized = await proxy.transcribe(const [1, 2, 3], locale: 'ar');
       final outcome = pipeline.evaluate(
         expected: 'بسم الله',
         recognized: recognized,

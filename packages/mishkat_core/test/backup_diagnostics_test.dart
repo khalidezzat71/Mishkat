@@ -46,8 +46,10 @@ void main() {
     });
 
     test('كلمة مرور قصيرة تُرفض', () {
-      expect(() => const BackupCodec().encrypt(payload, 'short'),
-          throwsArgumentError);
+      expect(
+        () => const BackupCodec().encrypt(payload, 'short'),
+        throwsArgumentError,
+      );
     });
 
     test('صيغة JSON قابلة للتصدير والاستيراد', () {
@@ -55,7 +57,9 @@ void main() {
       final raw = codec.encrypt(payload, 'strong-passphrase').toJson();
       final decoded = EncryptedBackup.fromJson(raw);
       expect(
-          codec.decrypt(decoded, 'strong-passphrase').entries, payload.entries);
+        codec.decrypt(decoded, 'strong-passphrase').entries,
+        payload.entries,
+      );
     });
 
     test(' checksum حرفي مستقر', () {

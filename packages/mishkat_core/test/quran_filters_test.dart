@@ -33,10 +33,7 @@ void main() {
     });
 
     test('صفحة غير موجودة تعيد قائمة فارغة', () {
-      expect(
-        applyAyahFilter(ayahs, const AyahFilter(page: 300)),
-        isEmpty,
-      );
+      expect(applyAyahFilter(ayahs, const AyahFilter(page: 300)), isEmpty);
     });
 
     test('فلاتر متساوية القيم تُعدّ متطابقة لتجنّب إعادة البحث', () {
@@ -50,7 +47,9 @@ void main() {
 
     test('القيم خارج النطاق تُرفض قبل التنفيذ', () {
       expect(
-          () => const AyahFilter(surahId: 115).validate(), throwsArgumentError);
+        () => const AyahFilter(surahId: 115).validate(),
+        throwsArgumentError,
+      );
       expect(() => const AyahFilter(juz: 31).validate(), throwsArgumentError);
       expect(() => const AyahFilter(page: 605).validate(), throwsArgumentError);
       expect(() => const AyahFilter(hizb: 61).validate(), throwsArgumentError);

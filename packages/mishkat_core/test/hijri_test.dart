@@ -13,10 +13,14 @@ void main() {
 
     test('إزاحة رؤية الهلال ±2 يوم', () {
       final base = calendar.fromGregorian(2026, 11, 27);
-      expect(calendar.fromGregorian(2026, 11, 27, moonSightingOffset: 1).day,
-          base.day + 1);
-      expect(calendar.fromGregorian(2026, 11, 27, moonSightingOffset: -2).day,
-          base.day - 2);
+      expect(
+        calendar.fromGregorian(2026, 11, 27, moonSightingOffset: 1).day,
+        base.day + 1,
+      );
+      expect(
+        calendar.fromGregorian(2026, 11, 27, moonSightingOffset: -2).day,
+        base.day - 2,
+      );
     });
 
     test('رفض إزاحة خارج النطاق', () {
@@ -28,14 +32,17 @@ void main() {
 
     test('الأيام البيض والاثنين والخميس', () {
       expect(
-          calendar.isWhiteDay(const HijriDate(year: 1448, month: 6, day: 13)),
-          isTrue);
+        calendar.isWhiteDay(const HijriDate(year: 1448, month: 6, day: 13)),
+        isTrue,
+      );
       expect(
-          calendar.isWhiteDay(const HijriDate(year: 1448, month: 6, day: 15)),
-          isTrue);
+        calendar.isWhiteDay(const HijriDate(year: 1448, month: 6, day: 15)),
+        isTrue,
+      );
       expect(
-          calendar.isWhiteDay(const HijriDate(year: 1448, month: 6, day: 12)),
-          isFalse);
+        calendar.isWhiteDay(const HijriDate(year: 1448, month: 6, day: 12)),
+        isFalse,
+      );
       expect(calendar.isMondayOrThursday(DateTime(2026, 11, 30)), isTrue);
       expect(calendar.isMondayOrThursday(DateTime(2026, 11, 29)), isFalse);
     });

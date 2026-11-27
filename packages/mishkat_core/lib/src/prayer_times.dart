@@ -12,16 +12,13 @@ enum SunniCalculationMethod {
   isna;
 
   CalculationParameters get parameters => switch (this) {
-        SunniCalculationMethod.ummAlQura =>
-          CalculationMethodParameters.ummAlQura(),
-        SunniCalculationMethod.muslimWorldLeague =>
-          CalculationMethodParameters.muslimWorldLeague(),
-        SunniCalculationMethod.egyptian =>
-          CalculationMethodParameters.egyptian(),
-        SunniCalculationMethod.karachi => CalculationMethodParameters.karachi(),
-        SunniCalculationMethod.isna =>
-          CalculationMethodParameters.northAmerica(),
-      };
+    SunniCalculationMethod.ummAlQura => CalculationMethodParameters.ummAlQura(),
+    SunniCalculationMethod.muslimWorldLeague =>
+      CalculationMethodParameters.muslimWorldLeague(),
+    SunniCalculationMethod.egyptian => CalculationMethodParameters.egyptian(),
+    SunniCalculationMethod.karachi => CalculationMethodParameters.karachi(),
+    SunniCalculationMethod.isna => CalculationMethodParameters.northAmerica(),
+  };
 }
 
 /// مذهب العصر.
@@ -49,13 +46,13 @@ class DailyPrayers {
   final DateTime isha;
 
   DateTime timeOf(PrayerName name) => switch (name) {
-        PrayerName.fajr => fajr,
-        PrayerName.sunrise => sunrise,
-        PrayerName.dhuhr => dhuhr,
-        PrayerName.asr => asr,
-        PrayerName.maghrib => maghrib,
-        PrayerName.isha => isha,
-      };
+    PrayerName.fajr => fajr,
+    PrayerName.sunrise => sunrise,
+    PrayerName.dhuhr => dhuhr,
+    PrayerName.asr => asr,
+    PrayerName.maghrib => maghrib,
+    PrayerName.isha => isha,
+  };
 
   /// الصلاة القادمة بعد [now] (الفجر في اليوم التالي إن لزم).
   PrayerName nextPrayer(DateTime now) {
@@ -86,8 +83,9 @@ class PrayerTimesService {
     AsrJurisprudence asr = AsrJurisprudence.shafi,
   }) {
     final params = method.parameters;
-    params.madhab =
-        asr == AsrJurisprudence.hanafi ? Madhab.hanafi : Madhab.shafi;
+    params.madhab = asr == AsrJurisprudence.hanafi
+        ? Madhab.hanafi
+        : Madhab.shafi;
     final times = PrayerTimes(
       coordinates: Coordinates(latitude, longitude),
       date: date,

@@ -34,14 +34,18 @@ void main() {
     });
 
     test('النص الحرفي لم يُعدَّل', () {
-      expect(dataset.ayahs.first.textUthmani,
-          'بِسْمِ ٱللَّهِ ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ');
+      expect(
+        dataset.ayahs.first.textUthmani,
+        'بِسْمِ ٱللَّهِ ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ',
+      );
     });
 
     test('عمودا البحث مشتقّان وليسا النص المعروض', () {
       expect(dataset.ayahs.first.textSearch, 'بسم الله الرحمن الرحيم');
-      expect(dataset.ayahs.first.textUthmani,
-          isNot(dataset.ayahs.first.textSearch));
+      expect(
+        dataset.ayahs.first.textUthmani,
+        isNot(dataset.ayahs.first.textSearch),
+      );
     });
   });
 

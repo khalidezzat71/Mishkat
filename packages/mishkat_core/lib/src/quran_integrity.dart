@@ -38,24 +38,24 @@ class QuranIntegrityReport {
   bool get isValid => issues.isEmpty;
 
   Map<String, dynamic> toJson() => {
-        'version': 1,
-        'source': 'https://tanzil.net',
-        'license': 'CC BY 3.0 — verbatim copies only, attribution required',
-        'uthmani': {
-          'file': 'quran-uthmani-v1.1.xml',
-          'sha256': uthmaniSha256,
-          'surahs': surahCount,
-          'ayahs': ayahCount,
-        },
-        'metadata': {
-          'file': 'quran-data-v1.0.xml',
-          'sha256': metadataSha256,
-          'surahs': metadataSurahCount,
-          'pages': pageCount,
-        },
-        'valid': isValid,
-        'issues': issues,
-      };
+    'version': 1,
+    'source': 'https://tanzil.net',
+    'license': 'CC BY 3.0 — verbatim copies only, attribution required',
+    'uthmani': {
+      'file': 'quran-uthmani-v1.1.xml',
+      'sha256': uthmaniSha256,
+      'surahs': surahCount,
+      'ayahs': ayahCount,
+    },
+    'metadata': {
+      'file': 'quran-data-v1.0.xml',
+      'sha256': metadataSha256,
+      'surahs': metadataSurahCount,
+      'pages': pageCount,
+    },
+    'valid': isValid,
+    'issues': issues,
+  };
 }
 
 /// يتحقق من SHA-256 ومن عدد السور والآيات والصفحات قبل أي استخدام للتطبيق.

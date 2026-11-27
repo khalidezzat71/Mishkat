@@ -25,12 +25,12 @@ class Sm2State {
   final Sm2Quality lastQuality;
 
   factory Sm2State.initial() => Sm2State(
-        easeFactor: 2.5,
-        intervalDays: 0,
-        repetitions: 0,
-        nextReview: DateTime.now(),
-        lastQuality: Sm2Quality.good,
-      );
+    easeFactor: 2.5,
+    intervalDays: 0,
+    repetitions: 0,
+    nextReview: DateTime.now(),
+    lastQuality: Sm2Quality.good,
+  );
 
   Sm2State copyWith({
     double? easeFactor,
@@ -71,8 +71,8 @@ class Sm2Scheduler {
     final interval = state.repetitions == 0
         ? 1
         : state.repetitions == 1
-            ? 6
-            : (state.intervalDays * state.easeFactor).round();
+        ? 6
+        : (state.intervalDays * state.easeFactor).round();
 
     var ease = state.easeFactor + (0.1 - (5 - q) * (0.08 + (5 - q) * 0.02));
     if (ease < 1.3) ease = 1.3;

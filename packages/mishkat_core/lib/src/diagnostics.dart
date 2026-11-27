@@ -30,17 +30,17 @@ class DiagnosticReport {
 
   /// لا يحتوي على إحداثيات ولا على أسماء ولا على أي معرّف جهاز.
   String toRedactedJson() => jsonEncode({
-        'generatedAt': generatedAt.toUtc().toIso8601String(),
-        'appVersion': appVersion,
-        'osVersion': osVersion,
-        'locale': locale,
-        'datasetValid': datasetValid,
-        'ayahCount': ayahCount,
-        'notificationSlots': notificationSlots,
-        'pendingCap': pendingCap,
-        'notificationBudgetOk': notificationBudgetOk,
-        'recentErrors': recentErrors.take(10).toList(),
-      });
+    'generatedAt': generatedAt.toUtc().toIso8601String(),
+    'appVersion': appVersion,
+    'osVersion': osVersion,
+    'locale': locale,
+    'datasetValid': datasetValid,
+    'ayahCount': ayahCount,
+    'notificationSlots': notificationSlots,
+    'pendingCap': pendingCap,
+    'notificationBudgetOk': notificationBudgetOk,
+    'recentErrors': recentErrors.take(10).toList(),
+  });
 }
 
 class DiagnosticsCollector {

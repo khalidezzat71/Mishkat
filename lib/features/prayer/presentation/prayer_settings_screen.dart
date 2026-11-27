@@ -20,8 +20,7 @@ class PrayerSettingsScreen extends ConsumerWidget {
 
     final methodLabel = switch (method) {
       SunniCalculationMethod.ummAlQura => l10n.methodUmmAlQura,
-      SunniCalculationMethod.muslimWorldLeague =>
-        l10n.methodMuslimWorldLeague,
+      SunniCalculationMethod.muslimWorldLeague => l10n.methodMuslimWorldLeague,
       SunniCalculationMethod.egyptian => l10n.methodEgyptian,
       SunniCalculationMethod.karachi => l10n.methodKarachi,
       SunniCalculationMethod.isna => l10n.methodIsna,
@@ -68,17 +67,14 @@ class PrayerSettingsScreen extends ConsumerWidget {
                 for (final item in SunniCalculationMethod.values)
                   DropdownMenuItem<SunniCalculationMethod>(
                     value: item,
-                    child: Text(
-                      switch (item) {
-                        SunniCalculationMethod.ummAlQura =>
-                          l10n.methodUmmAlQura,
-                        SunniCalculationMethod.muslimWorldLeague =>
-                          l10n.methodMuslimWorldLeague,
-                        SunniCalculationMethod.egyptian => l10n.methodEgyptian,
-                        SunniCalculationMethod.karachi => l10n.methodKarachi,
-                        SunniCalculationMethod.isna => l10n.methodIsna,
-                      },
-                    ),
+                    child: Text(switch (item) {
+                      SunniCalculationMethod.ummAlQura => l10n.methodUmmAlQura,
+                      SunniCalculationMethod.muslimWorldLeague =>
+                        l10n.methodMuslimWorldLeague,
+                      SunniCalculationMethod.egyptian => l10n.methodEgyptian,
+                      SunniCalculationMethod.karachi => l10n.methodKarachi,
+                      SunniCalculationMethod.isna => l10n.methodIsna,
+                    }),
                   ),
               ],
               onChanged: (value) {
@@ -123,9 +119,7 @@ class PrayerSettingsScreen extends ConsumerWidget {
                     .requestPermissions();
                 if (!granted && context.mounted) {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(l10n.notificationPermissionDenied),
-                    ),
+                    SnackBar(content: Text(l10n.notificationPermissionDenied)),
                   );
                   return;
                 }

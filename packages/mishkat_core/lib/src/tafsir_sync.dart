@@ -134,7 +134,10 @@ class TafsirSourcePolicy {
     final edition = kApprovedTafsirEditions.where((e) => e.id == id);
     if (edition.isEmpty || !isApproved(edition.first)) {
       throw ArgumentError.value(
-          id, 'editionId', 'not an approved Sunni runtime source');
+        id,
+        'editionId',
+        'not an approved Sunni runtime source',
+      );
     }
     return edition.first;
   }

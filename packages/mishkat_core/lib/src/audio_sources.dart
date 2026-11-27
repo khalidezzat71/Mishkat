@@ -77,7 +77,10 @@ class ReciterManager {
   void register(AudioSource source) {
     if (source.sect != Sect.sunni) {
       throw ArgumentError.value(
-          source.id, 'source', 'non-Sunni source rejected');
+        source.id,
+        'source',
+        'non-Sunni source rejected',
+      );
     }
     _sources[source.id] = source;
   }
@@ -159,15 +162,17 @@ class DownloadPolicy {
   }
 
   String manifestJson(Iterable<DownloadEntry> entries) => jsonEncode({
-        'version': 1,
-        'policy': 'private_storage_user_requested_only',
-        'entries': entries
-            .map((e) => {
-                  'id': e.id,
-                  'bytes': e.bytes,
-                  'sha256': e.sha256,
-                  'lastAccessedAt': e.lastAccessedAt.toUtc().toIso8601String(),
-                })
-            .toList(),
-      });
+    'version': 1,
+    'policy': 'private_storage_user_requested_only',
+    'entries': entries
+        .map(
+          (e) => {
+            'id': e.id,
+            'bytes': e.bytes,
+            'sha256': e.sha256,
+            'lastAccessedAt': e.lastAccessedAt.toUtc().toIso8601String(),
+          },
+        )
+        .toList(),
+  });
 }

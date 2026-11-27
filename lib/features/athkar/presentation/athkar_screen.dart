@@ -126,8 +126,7 @@ class _AthkarScreenState extends ConsumerState<AthkarScreen> {
                             alignment: AlignmentDirectional.centerStart,
                             child: OutlinedButton(
                               onPressed: () => setState(() {
-                                _counts[item.id] =
-                                    (_counts[item.id] ?? 0) + 1;
+                                _counts[item.id] = (_counts[item.id] ?? 0) + 1;
                               }),
                               child: Text(l10n.tapToCount),
                             ),

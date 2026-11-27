@@ -32,29 +32,38 @@ void main() {
 
     test('كاش 7 أيام: ينتهي بعدها ويُحذف', () {
       final cache = TafsirCache();
-      cache.put(TafsirCacheEntry(
-        editionId: 'ar.muyassar',
-        ayahId: 1,
-        text: 'نص تجريبي للاختبار',
-        fetchedAt: now,
-      ));
-      expect(cache.get('ar.muyassar', 1, now: now.add(const Duration(days: 6))),
-          'نص تجريبي للاختبار');
-      expect(cache.get('ar.muyassar', 1, now: now.add(const Duration(days: 8))),
-          isNull);
+      cache.put(
+        TafsirCacheEntry(
+          editionId: 'ar.muyassar',
+          ayahId: 1,
+          text: 'نص تجريبي للاختبار',
+          fetchedAt: now,
+        ),
+      );
+      expect(
+        cache.get('ar.muyassar', 1, now: now.add(const Duration(days: 6))),
+        'نص تجريبي للاختبار',
+      );
+      expect(
+        cache.get('ar.muyassar', 1, now: now.add(const Duration(days: 8))),
+        isNull,
+      );
       expect(cache.length, 0);
     });
 
     test('prune تحذف المنتهية فقط', () {
       final cache = TafsirCache();
-      cache.put(TafsirCacheEntry(
-          editionId: 'a', ayahId: 1, text: 'x', fetchedAt: now));
-      cache.put(TafsirCacheEntry(
-        editionId: 'a',
-        ayahId: 2,
-        text: 'y',
-        fetchedAt: now.add(const Duration(days: 6)),
-      ));
+      cache.put(
+        TafsirCacheEntry(editionId: 'a', ayahId: 1, text: 'x', fetchedAt: now),
+      );
+      cache.put(
+        TafsirCacheEntry(
+          editionId: 'a',
+          ayahId: 2,
+          text: 'y',
+          fetchedAt: now.add(const Duration(days: 6)),
+        ),
+      );
       final removed = cache.prune(now: now.add(const Duration(days: 8)));
       expect(removed, 1);
       expect(cache.length, 1);
@@ -62,20 +71,30 @@ void main() {
 
     test('السعة القصوى تطرد الأقدم', () {
       final cache = TafsirCache(maxEntries: 2);
-      cache.put(TafsirCacheEntry(
-          editionId: 'a', ayahId: 1, text: 'old', fetchedAt: now));
-      cache.put(TafsirCacheEntry(
-        editionId: 'a',
-        ayahId: 2,
-        text: 'new',
-        fetchedAt: now.add(const Duration(minutes: 1)),
-      ));
-      cache.put(TafsirCacheEntry(
-        editionId: 'a',
-        ayahId: 3,
-        text: 'newest',
-        fetchedAt: now.add(const Duration(minutes: 2)),
-      ));
+      cache.put(
+        TafsirCacheEntry(
+          editionId: 'a',
+          ayahId: 1,
+          text: 'old',
+          fetchedAt: now,
+        ),
+      );
+      cache.put(
+        TafsirCacheEntry(
+          editionId: 'a',
+          ayahId: 2,
+          text: 'new',
+          fetchedAt: now.add(const Duration(minutes: 1)),
+        ),
+      );
+      cache.put(
+        TafsirCacheEntry(
+          editionId: 'a',
+          ayahId: 3,
+          text: 'newest',
+          fetchedAt: now.add(const Duration(minutes: 2)),
+        ),
+      );
       expect(cache.length, 2);
       expect(cache.get('a', 1, now: now), isNull);
       expect(cache.get('a', 3, now: now), 'newest');
@@ -144,20 +163,24 @@ void main() {
       const policy = DownloadPolicy();
       final entries = [
         DownloadEntry(
-            id: 'old',
-            bytes: 100,
-            sha256: 'a',
-            lastAccessedAt: DateTime(2026, 1, 1)),
+          id: 'old',
+          bytes: 100,
+          sha256: 'a',
+          lastAccessedAt: DateTime(2026, 1, 1),
+        ),
         DownloadEntry(
-            id: 'new',
-            bytes: 100,
-            sha256: 'b',
-            lastAccessedAt: DateTime(2026, 11, 1)),
+          id: 'new',
+          bytes: 100,
+          sha256: 'b',
+          lastAccessedAt: DateTime(2026, 11, 1),
+        ),
       ];
       final kept = policy.evict(entries, maxBytes: 100);
       expect(kept.map((e) => e.id), ['new']);
-      expect(policy.manifestJson(kept),
-          contains('private_storage_user_requested_only'));
+      expect(
+        policy.manifestJson(kept),
+        contains('private_storage_user_requested_only'),
+      );
     });
   });
 
@@ -216,27 +239,37 @@ void main() {
 
     test('الحركة خارج النطاق تُعيد العدّ', () {
       final detector = GazeDwellDetector(dwellMs: 800, radiusPx: 20);
-      detector.feed(const GazePoint(x: 100, y: 100, timestampMs: 0),
-          targetIdAt: 'next');
+      detector.feed(
+        const GazePoint(x: 100, y: 100, timestampMs: 0),
+        targetIdAt: 'next',
+      );
       expect(
-        detector.feed(const GazePoint(x: 300, y: 300, timestampMs: 700),
-            targetIdAt: 'next'),
+        detector.feed(
+          const GazePoint(x: 300, y: 300, timestampMs: 700),
+          targetIdAt: 'next',
+        ),
         isNull,
       );
       expect(
-        detector.feed(const GazePoint(x: 300, y: 300, timestampMs: 1500),
-            targetIdAt: 'next'),
+        detector.feed(
+          const GazePoint(x: 300, y: 300, timestampMs: 1500),
+          targetIdAt: 'next',
+        ),
         isNull,
       );
     });
 
     test('تغيير العنصر يُلغي التثبيت السابق', () {
       final detector = GazeDwellDetector(dwellMs: 800, radiusPx: 20);
-      detector.feed(const GazePoint(x: 100, y: 100, timestampMs: 0),
-          targetIdAt: 'next');
+      detector.feed(
+        const GazePoint(x: 100, y: 100, timestampMs: 0),
+        targetIdAt: 'next',
+      );
       expect(
-        detector.feed(const GazePoint(x: 100, y: 100, timestampMs: 900),
-            targetIdAt: 'quran'),
+        detector.feed(
+          const GazePoint(x: 100, y: 100, timestampMs: 900),
+          targetIdAt: 'quran',
+        ),
         isNull,
       );
     });
@@ -269,12 +302,14 @@ void main() {
       );
       expect(guard.accepts(message), isTrue);
       expect(
-        guard.accepts(WatchMessage(
-          command: WatchCommand.athkar,
-          titleKey: 'navAthkar',
-          value: 'x' * 1000,
-          sentAt: DateTime.utc(2026, 11, 27),
-        )),
+        guard.accepts(
+          WatchMessage(
+            command: WatchCommand.athkar,
+            titleKey: 'navAthkar',
+            value: 'x' * 1000,
+            sentAt: DateTime.utc(2026, 11, 27),
+          ),
+        ),
         isFalse,
       );
     });

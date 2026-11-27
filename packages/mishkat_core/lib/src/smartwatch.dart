@@ -17,11 +17,11 @@ class WatchMessage {
   final DateTime sentAt;
 
   Map<String, dynamic> toMap() => {
-        'command': command.name,
-        'titleKey': titleKey,
-        'value': value,
-        'sentAt': sentAt.toUtc().toIso8601String(),
-      };
+    'command': command.name,
+    'titleKey': titleKey,
+    'value': value,
+    'sentAt': sentAt.toUtc().toIso8601String(),
+  };
 
   String toJson() => jsonEncode(toMap());
 }

@@ -15,10 +15,7 @@ class GazePoint {
 
 /// نتيجة اكتمال التثبيت (dwell) على عنصر واجهة.
 class GazeSelection {
-  const GazeSelection({
-    required this.targetId,
-    required this.timestampMs,
-  });
+  const GazeSelection({required this.targetId, required this.timestampMs});
 
   final String targetId;
   final int timestampMs;
@@ -26,11 +23,9 @@ class GazeSelection {
 
 /// كاشف تثبيت النظر — يعمل فقط بعد تفعيل صريح من المستخدم.
 class GazeDwellDetector {
-  GazeDwellDetector({
-    required this.dwellMs,
-    required this.radiusPx,
-  })  : assert(dwellMs > 0),
-        assert(radiusPx > 0);
+  GazeDwellDetector({required this.dwellMs, required this.radiusPx})
+    : assert(dwellMs > 0),
+      assert(radiusPx > 0);
 
   final int dwellMs;
   final double radiusPx;

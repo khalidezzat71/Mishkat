@@ -30,7 +30,9 @@ class WordAligner {
   const WordAligner();
 
   List<AlignedWord> align(
-      Iterable<String> tokens, Iterable<WordTiming> timings) {
+    Iterable<String> tokens,
+    Iterable<WordTiming> timings,
+  ) {
     final sorted = timings.toList()
       ..sort((a, b) => a.wordIndex.compareTo(b.wordIndex));
     final tokenList = tokens.toList();

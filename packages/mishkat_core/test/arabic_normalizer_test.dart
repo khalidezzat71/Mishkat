@@ -30,8 +30,10 @@ void main() {
       final expanded = normalizer.normalizeExpanded(verse);
       expect(plain, contains('والضحي'));
       expect(expanded, contains('والليل'));
-      expect(normalizer.normalize('والضحى والليل إذا سجى'),
-          'والضحي والليل اذا سجي');
+      expect(
+        normalizer.normalize('والضحى والليل إذا سجى'),
+        'والضحي والليل اذا سجي',
+      );
     });
 
     test('توحيد المسافات', () {

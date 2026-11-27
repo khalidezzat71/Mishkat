@@ -142,14 +142,13 @@ class QuranRepository {
   }
 
   /// آيات صفحة واحدة من المصحف، بترتيب المصحف، حرفياً من Tanzil.
-  Future<
-    List<({int id, int surahId, int ayahNo, int page, String text})>
-  >
+  Future<List<({int id, int surahId, int ayahNo, int page, String text})>>
   pageAyahs(int page) async {
-    final rows = await (_db.select(_db.ayahs)
-          ..where((a) => a.page.equals(page))
-          ..orderBy([(a) => OrderingTerm.asc(a.id)]))
-        .get();
+    final rows =
+        await (_db.select(_db.ayahs)
+              ..where((a) => a.page.equals(page))
+              ..orderBy([(a) => OrderingTerm.asc(a.id)]))
+            .get();
     return [
       for (final row in rows)
         (
@@ -165,13 +164,7 @@ class QuranRepository {
   /// قائمة السور مع أول صفحة تظهر فيها كل سورة.
   Future<
     List<
-      ({
-        int id,
-        String nameAr,
-        String? nameEn,
-        int ayahCount,
-        int pageStart,
-      })
+      ({int id, String nameAr, String? nameEn, int ayahCount, int pageStart})
     >
   >
   surahList() async {
@@ -184,9 +177,9 @@ class QuranRepository {
       for (final row in starts)
         row.read<int>('surah_id'): row.read<int>('page_start'),
     };
-    final rows = await (_db.select(_db.surahs)
-          ..orderBy([(s) => OrderingTerm.asc(s.id)]))
-        .get();
+    final rows = await (_db.select(
+      _db.surahs,
+    )..orderBy([(s) => OrderingTerm.asc(s.id)])).get();
     return [
       for (final row in rows)
         (

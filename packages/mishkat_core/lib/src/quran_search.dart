@@ -25,8 +25,11 @@ class QuranSearchIndex {
 
   /// بحث بكل الكلمات (AND) مع تطابق بادئ، في العمودين معاً.
   List<int> search(String query) {
-    final terms =
-        query.trim().split(RegExp(r'\s+')).where((t) => t.isNotEmpty).toList();
+    final terms = query
+        .trim()
+        .split(RegExp(r'\s+'))
+        .where((t) => t.isNotEmpty)
+        .toList();
     if (terms.isEmpty) return <int>[];
 
     Set<int>? matches;

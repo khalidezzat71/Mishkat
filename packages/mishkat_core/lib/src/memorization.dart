@@ -159,10 +159,10 @@ class ClozeBuilder {
     }
     return tokens
         .asMap()
-        .map((index, word) => MapEntry(
-              index,
-              hidden.contains(index) ? '______' : word,
-            ))
+        .map(
+          (index, word) =>
+              MapEntry(index, hidden.contains(index) ? '______' : word),
+        )
         .values
         .join(' ');
   }

@@ -44,8 +44,11 @@ void main() {
     });
 
     test('انحراف البوصلة يعدّل الزاوية المقروءة', () {
-      final result =
-          calculator.calculate(30.0444, 31.2357, magneticDeclination: 5);
+      final result = calculator.calculate(
+        30.0444,
+        31.2357,
+        magneticDeclination: 5,
+      );
       expect(result.magneticBearing, closeTo(result.bearingDegrees - 5, 0.001));
     });
   });

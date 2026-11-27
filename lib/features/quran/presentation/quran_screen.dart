@@ -86,10 +86,7 @@ class _QuranScreenState extends ConsumerState<QuranScreen> {
     );
   }
 
-  Widget _mushafTab(
-    AppLocalizations l10n,
-    Map<int, String> surahNames,
-  ) {
+  Widget _mushafTab(AppLocalizations l10n, Map<int, String> surahNames) {
     final page = ref.watch(mushafPageProvider(_page));
     return Column(
       children: [
@@ -138,8 +135,8 @@ class _QuranScreenState extends ConsumerState<QuranScreen> {
                 itemCount: ayahs.length,
                 itemBuilder: (context, index) {
                   final ayah = ayahs[index];
-                  final newSurah = index == 0 ||
-                      ayah.surahId != ayahs[index - 1].surahId;
+                  final newSurah =
+                      index == 0 || ayah.surahId != ayahs[index - 1].surahId;
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
@@ -166,10 +163,7 @@ class _QuranScreenState extends ConsumerState<QuranScreen> {
                             child: Text(
                               ayah.text,
                               textAlign: TextAlign.right,
-                              style: const TextStyle(
-                                fontSize: 26,
-                                height: 1.7,
-                              ),
+                              style: const TextStyle(fontSize: 26, height: 1.7),
                             ),
                           ),
                         ),
@@ -255,10 +249,7 @@ class _QuranScreenState extends ConsumerState<QuranScreen> {
                 value: _selectedJuz,
                 hint: Text(l10n.filterByJuz),
                 items: [
-                  DropdownMenuItem<int?>(
-                    value: null,
-                    child: Text(l10n.allJuz),
-                  ),
+                  DropdownMenuItem<int?>(value: null, child: Text(l10n.allJuz)),
                   for (var juz = 1; juz <= 30; juz++)
                     DropdownMenuItem<int?>(value: juz, child: Text('$juz')),
                 ],
@@ -299,41 +290,45 @@ class _QuranScreenState extends ConsumerState<QuranScreen> {
           child: term.isEmpty
               ? Center(child: Text(l10n.searchHint))
               : results.when(
-                loading: () =>
-                    const Center(child: CircularProgressIndicator()),
-                error: (error, stack) => Center(child: Text('$error')),
-                data: (ids) => ids.isEmpty
-                    ? Center(child: Text(l10n.noResults))
-                    : ListView.builder(
-                      itemCount: ids.length,
-                      itemBuilder: (context, index) {
-                        final id = ids[index];
-                        final meta = ref.watch(ayahMetaProvider(id));
-                        return meta.when(
-                          loading: () => const ListTile(
-                            title: LinearProgressIndicator(),
-                          ),
-                          error: (_, __) => const SizedBox.shrink(),
-                          data: (value) {
-                            if (value == null) return const SizedBox.shrink();
-                            return ListTile(
-                              leading: CircleAvatar(child: Text('${index + 1}')),
-                              title: Directionality(
-                                textDirection: TextDirection.rtl,
-                                child: Text(value.text),
+                  loading: () =>
+                      const Center(child: CircularProgressIndicator()),
+                  error: (error, stack) => Center(child: Text('$error')),
+                  data: (ids) => ids.isEmpty
+                      ? Center(child: Text(l10n.noResults))
+                      : ListView.builder(
+                          itemCount: ids.length,
+                          itemBuilder: (context, index) {
+                            final id = ids[index];
+                            final meta = ref.watch(ayahMetaProvider(id));
+                            return meta.when(
+                              loading: () => const ListTile(
+                                title: LinearProgressIndicator(),
                               ),
-                              subtitle: Text(
-                                '${l10n.surah}: ${value.surahId}  •  '
-                                '${l10n.ayah}: ${value.ayahNo}  •  '
-                                '${l10n.page}: ${value.page}',
-                              ),
-                              onTap: () => _goToMushaf(value.page, ayahId: id),
+                              error: (_, __) => const SizedBox.shrink(),
+                              data: (value) {
+                                if (value == null)
+                                  return const SizedBox.shrink();
+                                return ListTile(
+                                  leading: CircleAvatar(
+                                    child: Text('${index + 1}'),
+                                  ),
+                                  title: Directionality(
+                                    textDirection: TextDirection.rtl,
+                                    child: Text(value.text),
+                                  ),
+                                  subtitle: Text(
+                                    '${l10n.surah}: ${value.surahId}  •  '
+                                    '${l10n.ayah}: ${value.ayahNo}  •  '
+                                    '${l10n.page}: ${value.page}',
+                                  ),
+                                  onTap: () =>
+                                      _goToMushaf(value.page, ayahId: id),
+                                );
+                              },
                             );
                           },
-                        );
-                      },
-                    ),
-              ),
+                        ),
+                ),
         ),
         if (_selectedAyahId != null && tafsirEnabled)
           _TafsirPanel(ayahId: _selectedAyahId!),

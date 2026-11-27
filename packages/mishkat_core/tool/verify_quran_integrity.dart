@@ -26,7 +26,9 @@ void main() {
 
   final manifest = File(p.join(quranDir.path, 'manifest.json'));
   manifest.writeAsStringSync('${jsonEncode(report.toJson())}\n');
-  stdout.writeln('OK: ${report.ayahCount} ayahs, ${report.surahCount} surahs, '
-      '${report.pageCount} pages');
+  stdout.writeln(
+    'OK: ${report.ayahCount} ayahs, ${report.surahCount} surahs, '
+    '${report.pageCount} pages',
+  );
   stdout.writeln('manifest written to ${manifest.path}');
 }

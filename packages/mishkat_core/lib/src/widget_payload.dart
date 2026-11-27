@@ -19,13 +19,13 @@ class WidgetPayload {
   final DateTime updatedAt;
 
   Map<String, dynamic> toMap() => {
-        'nextPrayerKey': nextPrayerKey,
-        'nextPrayerTime': nextPrayerTime,
-        'minutesRemaining': minutesRemaining,
-        'hijriLabel': hijriLabel,
-        'qiblaBearing': qiblaBearing.round(),
-        'updatedAt': updatedAt.toUtc().toIso8601String(),
-      };
+    'nextPrayerKey': nextPrayerKey,
+    'nextPrayerTime': nextPrayerTime,
+    'minutesRemaining': minutesRemaining,
+    'hijriLabel': hijriLabel,
+    'qiblaBearing': qiblaBearing.round(),
+    'updatedAt': updatedAt.toUtc().toIso8601String(),
+  };
 
   String toJson() => jsonEncode(toMap());
 
