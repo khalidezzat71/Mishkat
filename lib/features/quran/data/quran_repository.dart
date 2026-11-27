@@ -140,4 +140,78 @@ class QuranRepository {
     )..where((a) => a.id.equals(id))).getSingleOrNull();
     return row?.textUthmani;
   }
+
+  /// آيات صفحة واحدة من المصحف، بترتيب المصحف، حرفياً من Tanzil.
+  Future<
+    List<({int id, int surahId, int ayahNo, int page, String text})>
+  >
+  pageAyahs(int page) async {
+    final rows = await (_db.select(_db.ayahs)
+          ..where((a) => a.page.equals(page))
+          ..orderBy([(a) => OrderingTerm.asc(a.id)]))
+        .get();
+    return [
+      for (final row in rows)
+        (
+          id: row.id,
+          surahId: row.surahId,
+          ayahNo: row.ayahNo,
+          page: row.page,
+          text: row.textUthmani,
+        ),
+    ];
+  }
+
+  /// قائمة السور مع أول صفحة تظهر فيها كل سورة.
+  Future<
+    List<
+      ({
+        int id,
+        String nameAr,
+        String? nameEn,
+        int ayahCount,
+        int pageStart,
+      })
+    >
+  >
+  surahList() async {
+    final starts = await _db
+        .customSelect(
+          'SELECT surah_id, MIN(page) AS page_start FROM ayahs GROUP BY surah_id',
+        )
+        .get();
+    final pageBySurah = {
+      for (final row in starts)
+        row.read<int>('surah_id')!: row.read<int>('page_start')!,
+    };
+    final rows = await (_db.select(_db.surahs)
+          ..orderBy([(s) => OrderingTerm.asc(s.id)]))
+        .get();
+    return [
+      for (final row in rows)
+        (
+          id: row.id,
+          nameAr: row.nameAr,
+          nameEn: row.nameEn,
+          ayahCount: row.ayahCount,
+          pageStart: pageBySurah[row.id] ?? 1,
+        ),
+    ];
+  }
+
+  /// مرجع الآية لعرض نتيجة البحث والانتقال إلى صفحتها.
+  Future<({int surahId, int ayahNo, int page, String text})?> ayahMeta(
+    int id,
+  ) async {
+    final row = await (_db.select(
+      _db.ayahs,
+    )..where((a) => a.id.equals(id))).getSingleOrNull();
+    if (row == null) return null;
+    return (
+      surahId: row.surahId,
+      ayahNo: row.ayahNo,
+      page: row.page,
+      text: row.textUthmani,
+    );
+  }
 }

@@ -3,6 +3,7 @@ import 'package:mishkat/l10n/generated/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'notification_bootstrap.dart';
 import 'providers.dart';
 import 'router.dart';
 
@@ -14,7 +15,8 @@ class MishkatApp extends ConsumerWidget {
     final locale = ref.watch(localeProvider);
     final themeMode = ref.watch(themeModeProvider);
 
-    return MaterialApp.router(
+    return NotificationBootstrap(
+      child: MaterialApp.router(
       title: 'Mishkat',
       debugShowCheckedModeBanner: false,
       locale: locale,
@@ -36,8 +38,9 @@ class MishkatApp extends ConsumerWidget {
         ),
         useMaterial3: true,
       ),
-      themeMode: themeMode,
-      routerConfig: appRouter,
+        themeMode: themeMode,
+        routerConfig: appRouter,
+      ),
     );
   }
 }

@@ -42,6 +42,8 @@ class NotificationService {
     return (android ?? false) || (ios ?? false);
   }
 
+  Future<void> cancelAll() => _plugin.cancelAll();
+
   Future<void> scheduleAll(List<NotificationSlot> slots) async {
     await _plugin.cancelAll();
     for (final slot in slots) {
@@ -73,8 +75,30 @@ class NotificationService {
       androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
       uiLocalNotificationDateInterpretation:
           UILocalNotificationDateInterpretation.absoluteTime,
-      payload: slot.key,
+      payload: switch (slot.kind) {
+        NotificationKind.athkar => '/athkar',
+        _ => '/prayer',
+      },
     );
+  }
+
+  /// إشعار فوري للتأكد من أن الإذن والقناة يعملان على الجهاز.
+  Future<void> showTest(String title, String body) async {
+    const details = NotificationDetails(
+      android: AndroidNotificationDetails(
+        _channelId,
+        _channelName,
+        channelDescription: _channelDescription,
+        importance: Importance.max,
+        priority: Priority.high,
+      ),
+      iOS: DarwinNotificationDetails(
+        presentAlert: true,
+        presentBadge: true,
+        presentSound: true,
+      ),
+    );
+    await _plugin.show(999, title, body, details, payload: '/prayer');
   }
 
   /// المفاتيح النصية تُحوَّل إلى معرّف عددى ثابت داخل نطاق 32-بت.

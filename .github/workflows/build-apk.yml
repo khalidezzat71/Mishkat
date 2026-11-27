@@ -29,6 +29,28 @@ jobs:
       - name: Generate platform folders
         run: flutter create --platforms=android --project-name mishkat --org com.mishkat .
 
+      - name: Add local notification permissions
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p = Path('android/app/src/main/AndroidManifest.xml')
+          s = p.read_text()
+          permissions = [
+              'android.permission.POST_NOTIFICATIONS',
+              'android.permission.SCHEDULE_EXACT_ALARM',
+              'android.permission.VIBRATE',
+              'android.permission.WAKE_LOCK',
+          ]
+          additions = ''.join(
+              f'    <uses-permission android:name="{name}" />\n'
+              for name in permissions
+              if name not in s
+          )
+          marker = '<application'
+          s = s.replace(marker, additions + marker, 1)
+          p.write_text(s)
+          PY
+
       - name: Enable core library desugaring
         run: |
           python3 - <<'PY'

@@ -2,22 +2,20 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mishkat_core/mishkat_core.dart';
 import 'package:timezone/timezone.dart' as tz;
 
+import '../../app/providers.dart';
+
 const prayerTimesService = PrayerTimesService();
 
-/// الطرق السنية الخمس فقط.
-final calculationMethodProvider = StateProvider<SunniCalculationMethod>(
-  (ref) => SunniCalculationMethod.ummAlQura,
-);
-
-final asrJurisprudenceProvider = StateProvider<AsrJurisprudence>(
-  (ref) => AsrJurisprudence.shafi,
-);
-
-/// الإحداثيات لا تُرسل لأي خادم — تأتي من GPS عند الطلب أو من قائمة مدن محلية.
+/// الإحداثيات لا تُرسل لأي خادم — تأتي من قائمة مدن محلية.
 final coordinatesProvider =
-    StateProvider<({double latitude, double longitude})?>((ref) => null);
+    Provider<({double latitude, double longitude})?>((ref) {
+      final city = ref.watch(selectedCityProvider);
+      return (latitude: city.latitude, longitude: city.longitude);
+    });
 
-final timeZoneNameProvider = StateProvider<String>((ref) => 'Asia/Riyadh');
+final timeZoneNameProvider = Provider<String>((ref) {
+  return ref.watch(selectedCityProvider).timeZone;
+});
 
 final dailyPrayersProvider = Provider<DailyPrayers?>((ref) {
   final coordinates = ref.watch(coordinatesProvider);

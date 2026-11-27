@@ -46,6 +46,40 @@ final ayahTextProvider = FutureProvider.family<String?, int>((
   return ref.watch(quranRepositoryProvider).ayahText(ayahId);
 });
 
+/// صفحة كاملة من المصحف للقراءة، بدون أي اتصال شبكي.
+final mushafPageProvider = FutureProvider.family<
+  List<({int id, int surahId, int ayahNo, int page, String text})>,
+  int
+>((ref, page) async {
+  await ref.watch(quranReadyProvider.future);
+  return ref.watch(quranRepositoryProvider).pageAyahs(page);
+});
+
+/// فهرس السور لأول صفحة لكل سورة.
+final surahListProvider = FutureProvider<
+  List<
+    ({
+      int id,
+      String nameAr,
+      String? nameEn,
+      int ayahCount,
+      int pageStart,
+    })
+  >
+>((ref) async {
+  await ref.watch(quranReadyProvider.future);
+  return ref.watch(quranRepositoryProvider).surahList();
+});
+
+/// مرجع الآية لعرض نتائج البحث والقفز إلى صفحتها.
+final ayahMetaProvider = FutureProvider.family<
+  ({int surahId, int ayahNo, int page, String text})?,
+  int
+>((ref, ayahId) async {
+  await ref.watch(quranReadyProvider.future);
+  return ref.watch(quranRepositoryProvider).ayahMeta(ayahId);
+});
+
 /// توقيتات الكلمات عبر الوكيل فقط، وبعد OptIn صريح.
 final wordTimingsProvider =
     FutureProvider.family<List<WordTiming>, ({int surah, int ayah})>((

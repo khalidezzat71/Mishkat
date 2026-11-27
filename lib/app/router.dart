@@ -7,6 +7,7 @@ import '../features/athkar/presentation/athkar_screen.dart';
 import '../features/memorization/presentation/memorization_screen.dart';
 import '../features/memorization/presentation/recitation_screen.dart';
 import '../features/prayer/presentation/prayer_screen.dart';
+import '../features/prayer/presentation/prayer_settings_screen.dart';
 import '../features/quran/presentation/quran_screen.dart';
 import '../features/quran/presentation/reciters_screen.dart';
 import '../features/settings/presentation/advanced_settings_screen.dart';
@@ -27,6 +28,10 @@ final appRouter = GoRouter(
         GoRoute(
           path: '/prayer',
           builder: (context, state) => const PrayerScreen(),
+        ),
+        GoRoute(
+          path: '/prayer-settings',
+          builder: (context, state) => const PrayerSettingsScreen(),
         ),
         GoRoute(
           path: '/quran',
@@ -84,6 +89,7 @@ class NavigationShell extends ConsumerWidget {
 
   int _indexFor(BuildContext context) {
     final location = GoRouterState.of(context).uri.toString();
+    if (location.startsWith('/prayer')) return 0;
     if (location.startsWith('/quran') || location.startsWith('/reciters')) {
       return 1;
     }
