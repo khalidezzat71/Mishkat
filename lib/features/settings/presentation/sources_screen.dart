@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:mishkat/l10n/generated/app_localizations.dart';
 import 'package:flutter/services.dart';
 
 class SourcesScreen extends StatelessWidget {
