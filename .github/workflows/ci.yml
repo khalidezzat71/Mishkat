@@ -30,6 +30,9 @@ jobs:
         with:
           channel: stable
           cache: true
+      - name: Fetch core package
+        working-directory: packages/mishkat_core
+        run: dart pub get
       - run: flutter pub get
       - run: dart format lib test packages
       - run: flutter gen-l10n
