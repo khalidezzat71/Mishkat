@@ -1,0 +1,26 @@
+name: Format sources
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  format:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+      - name: Format Dart sources
+        run: dart format lib test packages
+      - uses: actions/upload-artifact@v4
+        with:
+          name: formatted-sources
+          path: |
+            lib/
+            test/
+            packages/
+          retention-days: 1
