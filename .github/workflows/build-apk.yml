@@ -30,6 +30,13 @@ jobs:
       - name: Generate platform folders
         run: flutter create --platforms=android --project-name mishkat --org com.mishkat .
 
+      - name: Remove Flutter template test
+        run: rm -f test/widget_test.dart
+
+      - name: Fetch core package
+        working-directory: packages/mishkat_core
+        run: dart pub get
+
       - name: Fetch packages
         run: flutter pub get
 
