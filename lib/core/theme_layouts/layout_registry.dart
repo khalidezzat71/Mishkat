@@ -39,7 +39,7 @@ const List<LayoutDefinition> kLayouts = [
   LayoutDefinition(
     id: 4,
     key: 'layoutTahajjudOled',
-    navigationStyle: NavigationStyle.bottomBar,
+    navigationStyle: NavigationStyle.floatingDock,
     density: 0,
   ),
   LayoutDefinition(
