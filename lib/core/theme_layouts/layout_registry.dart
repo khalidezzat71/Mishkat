@@ -33,7 +33,7 @@ const List<LayoutDefinition> kLayouts = [
   LayoutDefinition(
     id: 3,
     key: 'layoutKalaRadial',
-    navigationStyle: NavigationStyle.floatingDock,
+    navigationStyle: NavigationStyle.radial,
     density: 0,
   ),
   LayoutDefinition(
