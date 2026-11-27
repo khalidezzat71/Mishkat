@@ -9,7 +9,6 @@ part 'app_database.g.dart';
   tables: [
     Surahs,
     Ayahs,
-    AyahFts,
     Reciters,
     WordTimings,
     Tafsirs,

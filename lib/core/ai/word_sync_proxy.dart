@@ -22,7 +22,7 @@ class HttpWordSyncProxy implements WordSyncProxy {
       final response = await _client.get<String>(
         '$baseUrl/word-timings',
         queryParameters: {'reciter': reciterId, 'surah': surah, 'ayah': ayah},
-        options: Options(responseType: ResponseType.string),
+        options: Options(responseType: ResponseType.plain),
       );
       final decoded = jsonDecode(response.data ?? '{}') as Map<String, dynamic>;
       final raw = decoded['timings'] as List<dynamic>? ?? const <dynamic>[];

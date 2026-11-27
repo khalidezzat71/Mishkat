@@ -15,22 +15,36 @@ class AdvancedSettingsScreen extends ConsumerWidget {
       appBar: AppBar(title: Text(l10n.advancedSettings)),
       body: ListView(
         children: [
-          _tile(ref, OptInKey.tafsir, l10n.optInTafsir, l10n.optInTafsirDesc),
           _tile(
+            context,
+            ref,
+            OptInKey.tafsir,
+            l10n.optInTafsir,
+            l10n.optInTafsirDesc,
+          ),
+          _tile(
+            context,
             ref,
             OptInKey.wordSync,
             l10n.optInWordSync,
             l10n.optInWordSyncDesc,
           ),
-          _tile(ref, OptInKey.gaze, l10n.optInGaze, l10n.optInGazeDesc),
           _tile(
+            context,
+            ref,
+            OptInKey.gaze,
+            l10n.optInGaze,
+            l10n.optInGazeDesc,
+          ),
+          _tile(
+            context,
             ref,
             OptInKey.grading,
             l10n.optInGrading,
             l10n.optInGradingDesc,
           ),
-          _tile(ref, OptInKey.widget, l10n.optInWidget, ''),
-          _tile(ref, OptInKey.watch, l10n.optInWatch, ''),
+          _tile(context, ref, OptInKey.widget, l10n.optInWidget, ''),
+          _tile(context, ref, OptInKey.watch, l10n.optInWatch, ''),
           const Divider(),
           ListTile(
             title: Text(l10n.reciters),
@@ -59,7 +73,13 @@ class AdvancedSettingsScreen extends ConsumerWidget {
     );
   }
 
-  Widget _tile(WidgetRef ref, OptInKey key, String title, String subtitle) {
+  Widget _tile(
+    BuildContext context,
+    WidgetRef ref,
+    OptInKey key,
+    String title,
+    String subtitle,
+  ) {
     return SwitchListTile(
       title: Text(title),
       subtitle: subtitle.isEmpty ? null : Text(subtitle),

@@ -24,7 +24,7 @@ class HttpRecitationProxy implements RecitationProxy {
         queryParameters: {'locale': locale},
         options: Options(
           contentType: 'audio/m4a',
-          responseType: ResponseType.string,
+          responseType: ResponseType.plain,
         ),
       );
       final decoded = jsonDecode(response.data ?? '{}') as Map<String, dynamic>;

@@ -82,7 +82,7 @@ class NavigationShell extends ConsumerWidget {
 
   final Widget child;
 
-  int get _index {
+  int _indexFor(BuildContext context) {
     final location = GoRouterState.of(context).uri.toString();
     if (location.startsWith('/quran') || location.startsWith('/reciters')) {
       return 1;
@@ -124,7 +124,7 @@ class NavigationShell extends ConsumerWidget {
     Widget? navigation;
     if (layout.navigationStyle != NavigationStyle.none) {
       navigation = NavigationBar(
-        selectedIndex: _index,
+        selectedIndex: _indexFor(context),
         onDestinationSelected: (index) => switch (index) {
           0 => context.go('/prayer'),
           1 => context.go('/quran'),
