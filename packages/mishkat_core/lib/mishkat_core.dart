@@ -16,6 +16,7 @@ export 'src/quran_dataset.dart';
 export 'src/quran_filters.dart';
 export 'src/quran_integrity.dart';
 export 'src/quran_search.dart';
+export 'src/quran_text_sources.dart';
 export 'src/smartwatch.dart';
 export 'src/sm2.dart';
 export 'src/tafsir_sync.dart';

@@ -151,5 +151,13 @@
   "qiblaDirection": "Direction de la Qibla",
   "noPrayerTimes": "Choisissez votre ville dans les paramètres de prière.",
   "messagesCount": "Nombre d’invocations",
-  "recitersUnavailable": "Liste des récitants indisponible"
+  "recitersUnavailable": "Liste des récitants indisponible",
+  "mushafSource": "Source du texte du Mushaf",
+  "mushafSourceTanzil": "Tanzil Uthmani (intégré — hors ligne)",
+  "mushafSourceQuranCom": "Quran.com Uthmani (en ligne, puis mis en cache)",
+  "mushafSourceDesc": "La source intégrée fonctionne entièrement hors ligne. La source en ligne récupère une page une fois puis la stocke sur votre appareil ; ses données brutes ne sont jamais stockées dans le dépôt.",
+  "mushafSourceFallback": "Impossible de charger la page depuis la source en ligne. Vérifiez la connexion et réessayez, ou choisissez la source intégrée dans les paramètres.",
+  "retry": "Réessayer",
+  "clearMushafCache": "Effacer le texte en ligne mis en cache",
+  "mushafCacheCleared": "Texte en ligne mis en cache effacé"
 }

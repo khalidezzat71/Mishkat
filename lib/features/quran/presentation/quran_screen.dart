@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mishkat/core/settings/opt_in_providers.dart';
 import 'package:mishkat/l10n/generated/app_localizations.dart';
 import 'package:mishkat_core/mishkat_core.dart';
 
 import '../../../app/advanced_providers.dart';
+import '../../../app/providers.dart';
 import 'quran_providers.dart';
 import 'word_highlight.dart';
 
@@ -87,11 +89,32 @@ class _QuranScreenState extends ConsumerState<QuranScreen> {
   }
 
   Widget _mushafTab(AppLocalizations l10n, Map<int, String> surahNames) {
-    final page = ref.watch(mushafPageProvider(_page));
+    final source = ref.watch(mushafSourceProvider);
+    final page = ref.watch(activeMushafPageProvider(_page));
+    final sourceLabel = switch (source) {
+      QuranTextSource.tanzilUthmani => l10n.mushafSourceTanzil,
+      QuranTextSource.quranComUthmani => l10n.mushafSourceQuranCom,
+    };
+
     return Column(
       children: [
+        ListTile(
+          dense: true,
+          leading: Icon(
+            source.requiresNetwork
+                ? Icons.cloud_sync_outlined
+                : Icons.menu_book_outlined,
+          ),
+          title: Text(l10n.mushafSource),
+          subtitle: Text(sourceLabel),
+          trailing: IconButton(
+            tooltip: l10n.mushafSource,
+            icon: const Icon(Icons.settings_outlined),
+            onPressed: () => context.push('/settings'),
+          ),
+        ),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
           child: Row(
             children: [
               IconButton(
@@ -125,7 +148,39 @@ class _QuranScreenState extends ConsumerState<QuranScreen> {
         Expanded(
           child: page.when(
             loading: () => const Center(child: CircularProgressIndicator()),
-            error: (error, stack) => Center(child: Text('$error')),
+            error: (error, stack) => Center(
+              child: Padding(
+                padding: const EdgeInsets.all(24),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Icon(Icons.wifi_off_outlined, size: 48),
+                    const SizedBox(height: 12),
+                    Text(
+                      source.requiresNetwork
+                          ? l10n.mushafSourceFallback
+                          : l10n.errorGeneric,
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 12),
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        TextButton(
+                          onPressed: () =>
+                              ref.invalidate(activeMushafPageProvider(_page)),
+                          child: Text(l10n.retry),
+                        ),
+                        TextButton(
+                          onPressed: () => context.push('/settings'),
+                          child: Text(l10n.mushafSource),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
             data: (ayahs) {
               if (ayahs.isEmpty) {
                 return Center(child: Text(l10n.noResults));

@@ -151,5 +151,13 @@
   "qiblaDirection": "Qibla direction",
   "noPrayerTimes": "Choose your city in prayer settings to see the times.",
   "messagesCount": "Remembrance count",
-  "recitersUnavailable": "Reciters are currently unavailable"
+  "recitersUnavailable": "Reciters are currently unavailable",
+  "mushafSource": "Mushaf text source",
+  "mushafSourceTanzil": "Tanzil Uthmani (bundled — offline)",
+  "mushafSourceQuranCom": "Quran.com Uthmani (online, then cached)",
+  "mushafSourceDesc": "The bundled source works fully offline. The online source fetches a page once then stores it on your device; its raw data is never stored in the repository.",
+  "mushafSourceFallback": "Could not load the page from the online source. Check your connection and retry, or choose the bundled source in settings.",
+  "retry": "Retry",
+  "clearMushafCache": "Clear cached online text",
+  "mushafCacheCleared": "Cached online text cleared"
 }

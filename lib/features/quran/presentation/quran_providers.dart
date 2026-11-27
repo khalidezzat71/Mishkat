@@ -8,7 +8,11 @@ import '../../../app/providers.dart';
 import '../data/quran_repository.dart';
 
 final quranRepositoryProvider = Provider<QuranRepository>((ref) {
-  return QuranRepository(ref.watch(databaseProvider), rootBundle);
+  return QuranRepository(
+    ref.watch(databaseProvider),
+    rootBundle,
+    ref.watch(dioProvider),
+  );
 });
 
 /// يبني الفهرس عند أول تشغيل — يعمل بالكامل بدون إنترنت.
@@ -46,15 +50,26 @@ final ayahTextProvider = FutureProvider.family<String?, int>((
   return ref.watch(quranRepositoryProvider).ayahText(ayahId);
 });
 
-/// صفحة كاملة من المصحف للقراءة، بدون أي اتصال شبكي.
+/// صفحة كاملة من المصحف من المصدر المختار.
 final mushafPageProvider =
     FutureProvider.family<
-      List<({int id, int surahId, int ayahNo, int page, String text})>,
-      int
-    >((ref, page) async {
+      List<MushafAyah>,
+      ({int page, QuranTextSource source})
+    >((ref, request) async {
       await ref.watch(quranReadyProvider.future);
-      return ref.watch(quranRepositoryProvider).pageAyahs(page);
+      return ref
+          .watch(quranRepositoryProvider)
+          .pageAyahs(request.page, source: request.source);
     });
+
+/// يقرأ المصدر الحالي من الإعدادات ثم يعرض الصفحة المطلوبة.
+final activeMushafPageProvider = FutureProvider.family<List<MushafAyah>, int>((
+  ref,
+  page,
+) async {
+  final source = ref.watch(mushafSourceProvider);
+  return ref.watch(mushafPageProvider((page: page, source: source)).future);
+});
 
 /// فهرس السور لأول صفحة لكل سورة.
 final surahListProvider =

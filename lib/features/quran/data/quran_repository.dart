@@ -1,19 +1,39 @@
 import 'dart:convert';
 
+import 'package:dio/dio.dart';
 import 'package:drift/drift.dart';
 import 'package:flutter/services.dart';
 import 'package:mishkat/core/database/app_database.dart';
 import 'package:mishkat_core/mishkat_core.dart';
 
+typedef MushafAyah = ({
+  int id,
+  int surahId,
+  int ayahNo,
+  int page,
+  String text,
+});
+
+typedef MushafSurah = ({
+  int id,
+  String nameAr,
+  String? nameEn,
+  int ayahCount,
+  int pageStart,
+});
+
 /// يحمّل بيانات Tanzil المدمجة ويبني فهرس FTS5 مرة واحدة عند أول تشغيل.
+/// عند اختيار مصدر شبكي تُجلب الصفحة وقت التشغيل وتُخزَّن محلياً فقط.
 class QuranRepository {
-  QuranRepository(this._db, this._bundle);
+  QuranRepository(this._db, this._bundle, this._dio);
 
   final AppDatabase _db;
   final AssetBundle _bundle;
+  final Dio _dio;
 
   static const _asset = 'assets/quran/quran-dataset.json';
   static const _datasetVersion = 'tanzil-v1.1';
+  static const _remoteBase = 'https://api.quran.com/api/v4';
 
   Map<int, ({int surah, int ayah})>? _references;
 
@@ -37,7 +57,14 @@ class QuranRepository {
     )..where((m) => m.key.equals('dataset_version'))).getSingleOrNull();
     final decoded = await _loadDataset();
     _cacheReferences(decoded['ayahs'] as List<dynamic>);
-    if (existing?.value == _datasetVersion) return;
+    final indexedCount =
+        (await _db.customSelect('SELECT COUNT(*) AS total FROM ayah_fts')
+                .getSingle())
+            .read<int>('total');
+    final expectedCount = (decoded['ayahs'] as List<dynamic>).length;
+    if (existing?.value == _datasetVersion && indexedCount == expectedCount) {
+      return;
+    }
 
     final surahs = decoded['surahs'] as List<dynamic>;
     final ayahs = decoded['ayahs'] as List<dynamic>;
@@ -102,7 +129,7 @@ class QuranRepository {
     });
   }
 
-  /// البحث الكامل محلياً عبر FTS5، ثم تصفية النتائج على الجهاز también.
+  /// البحث الكامل محلياً عبر FTS5 ثم تصفية النتائج على الجهاز أيضاً.
   Future<List<int>> search(String term, {AyahFilter? filter}) async {
     final ids = await _db.searchAyahIds(term);
     if (filter == null || filter.isEmpty) return ids;
@@ -141,9 +168,7 @@ class QuranRepository {
     return row?.textUthmani;
   }
 
-  /// آيات صفحة واحدة من المصحف، بترتيب المصحف، حرفياً من Tanzil.
-  Future<List<({int id, int surahId, int ayahNo, int page, String text})>>
-  pageAyahs(int page) async {
+  Future<List<MushafAyah>> _localPageAyahs(int page) async {
     final rows =
         await (_db.select(_db.ayahs)
               ..where((a) => a.page.equals(page))
@@ -161,13 +186,76 @@ class QuranRepository {
     ];
   }
 
+  static MushafAyah _withText(MushafAyah ayah, String text) => (
+    id: ayah.id,
+    surahId: ayah.surahId,
+    ayahNo: ayah.ayahNo,
+    page: ayah.page,
+    text: text,
+  );
+
+  /// صفحة كاملة من المصحف، حرفياً من المصدر المختار.
+  /// الترقيم والمetadata تأتي دائماً من بيانات Tanzil المدمجة.
+  Future<List<MushafAyah>> pageAyahs(
+    int page, {
+    QuranTextSource source = QuranTextSource.tanzilUthmani,
+  }) async {
+    final local = await _localPageAyahs(page);
+    if (!source.requiresNetwork || local.isEmpty) return local;
+    return _remotePageAyahs(page, local, source);
+  }
+
+  Future<List<MushafAyah>> _remotePageAyahs(
+    int page,
+    List<MushafAyah> local,
+    QuranTextSource source,
+  ) async {
+    final byKey = {
+      for (final ayah in local) '${ayah.surahId}:${ayah.ayahNo}': ayah.id,
+    };
+    final ids = local.map((a) => a.id).toList()..sort();
+    final fromId = ids.first;
+    final toId = ids.last;
+
+    var cached = await _db.cachedMushafText(fromId, toId);
+    if (byKey.values.every(cached.containsKey)) {
+      return [for (final ayah in local) _withText(ayah, cached[ayah.id]!)];
+    }
+
+    var apiPage = 1;
+    while (true) {
+      final response = await _dio.get<dynamic>(
+        '$_remoteBase/verses/by_page/$page',
+        queryParameters: {
+          'fields': 'text_uthmani',
+          'per_page': 50,
+          'page': apiPage,
+        },
+        options: Options(receiveTimeout: const Duration(seconds: 20)),
+      );
+      final data = response.data as Map<String, dynamic>;
+      final verses = data['verses'] as List<dynamic>? ?? const [];
+      for (final verse in verses) {
+        final map = verse as Map<String, dynamic>;
+        final key = map['verse_key'] as String?;
+        final text = map['text_uthmani'] as String?;
+        final ayahId = key == null ? null : byKey[key];
+        if (ayahId == null || text == null) continue;
+        await _db.cacheMushafText(ayahId, text, source.id);
+      }
+      final pagination = data['pagination'] as Map<String, dynamic>?;
+      final current = pagination?['current_page'] as int? ?? apiPage;
+      final total = pagination?['total_pages'] as int? ?? 1;
+      if (verses.isEmpty || current >= total) break;
+      apiPage = current + 1;
+    }
+
+    cached = await _db.cachedMushafText(fromId, toId);
+    return [for (final ayah in local) _withText(ayah, cached[ayah.id] ?? ayah.text)];
+  }
+
   /// قائمة السور مع أول صفحة تظهر فيها كل سورة.
-  Future<
-    List<
-      ({int id, String nameAr, String? nameEn, int ayahCount, int pageStart})
-    >
-  >
-  surahList() async {
+  Future<List<MushafSurah>> surahList() async {
     final starts = await _db
         .customSelect(
           'SELECT surah_id, MIN(page) AS page_start FROM ayahs GROUP BY surah_id',
@@ -192,7 +280,7 @@ class QuranRepository {
     ];
   }
 
-  /// مرجع الآية لعرض نتيجة البحث والانتقال إلى صفحتها.
+  /// مرجع الآية لعرض نتيجة البحث والقفز إلى صفحتها.
   Future<({int surahId, int ayahNo, int page, String text})?> ayahMeta(
     int id,
   ) async {

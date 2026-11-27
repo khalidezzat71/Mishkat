@@ -33,6 +33,19 @@ void main() {
     }
   });
 
+  test('مصدر المصحف الشبكي وقت التشغيل فقط', () {
+    final decoded =
+        jsonDecode(readData('sources.json')) as Map<String, dynamic>;
+    final sources = decoded['sources'] as List<dynamic>;
+    final remote = sources.cast<Map<String, dynamic>>().firstWhere(
+      (source) => source['id'] == 'quran_com_uthmani',
+    );
+    expect(remote['type'], 'quran_text');
+    expect(remote['bundled'], isFalse);
+    expect(remote['url'], contains('api.quran.com'));
+    expect(remote['license'], contains('runtime'));
+  });
+
   test('سياسة المصادر العامة مسجّلة', () {
     final decoded =
         jsonDecode(readData('sources.json')) as Map<String, dynamic>;

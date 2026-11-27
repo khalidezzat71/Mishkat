@@ -5,6 +5,24 @@ import 'tables.dart';
 
 part 'app_database.g.dart';
 
+const _createAyahFts = '''
+CREATE VIRTUAL TABLE IF NOT EXISTS ayah_fts USING fts5(
+  ayah_id UNINDEXED,
+  text_search,
+  text_search_expanded,
+  tokenize = 'unicode61 remove_diacritics 2'
+)
+''';
+
+const _createMushafOverrides = '''
+CREATE TABLE IF NOT EXISTS mushaf_text_overrides (
+  ayah_id INTEGER PRIMARY KEY,
+  text TEXT NOT NULL,
+  source TEXT NOT NULL,
+  synced_at INTEGER NOT NULL
+)
+''';
+
 @DriftDatabase(
   tables: [
     Surahs,
@@ -31,16 +49,32 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_open());
 
   @override
-  int get schemaVersion => 1;
+  int get schemaVersion => 3;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
     onCreate: (m) async {
       await m.createAll();
       await customStatement('PRAGMA foreign_keys = ON');
+      await customStatement(_createAyahFts);
+      await customStatement(_createMushafOverrides);
+    },
+    onUpgrade: (m, from, to) async {
+      if (from < 2) {
+        await customStatement(_createAyahFts);
+        await customStatement('DELETE FROM ayah_fts');
+        await customStatement(
+          "DELETE FROM schema_meta WHERE key = 'dataset_version'",
+        );
+      }
+      if (from < 3) {
+        await customStatement(_createMushafOverrides);
+      }
     },
     beforeOpen: (details) async {
       await customStatement('PRAGMA foreign_keys = ON');
+      await customStatement(_createAyahFts);
+      await customStatement(_createMushafOverrides);
     },
   );
 
@@ -70,4 +104,34 @@ class AppDatabase extends _$AppDatabase {
     ).get();
     return rows.map((row) => row.read<int>('ayah_id')).toList();
   }
+
+  /// يقرأ النص المخزّن مؤقتاً من مصدر شبكي، إن وُجد، وإلا يعيد خريطة فارغة.
+  Future<Map<int, String>> cachedMushafText(int fromId, int toId) async {
+    final rows = await customSelect(
+      'SELECT ayah_id, text FROM mushaf_text_overrides '
+      'WHERE ayah_id BETWEEN ?1 AND ?2',
+      variables: [Variable<int>(fromId), Variable<int>(toId)],
+    ).get();
+    return {
+      for (final row in rows)
+        row.read<int>('ayah_id'): row.read<String>('text'),
+    };
+  }
+
+  Future<void> cacheMushafText(
+    int ayahId,
+    String text,
+    String source,
+  ) async {
+    await customStatement(
+      'INSERT INTO mushaf_text_overrides(ayah_id, text, source, synced_at) '
+      'VALUES (?, ?, ?, ?) ON CONFLICT(ayah_id) DO UPDATE SET '
+      'text = excluded.text, source = excluded.source, '
+      'synced_at = excluded.synced_at',
+      [ayahId, text, source, DateTime.now().millisecondsSinceEpoch],
+    );
+  }
+
+  Future<void> clearMushafTextCache() =>
+      customStatement('DELETE FROM mushaf_text_overrides');
 }

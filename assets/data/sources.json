@@ -11,6 +11,14 @@
       "bundled": true
     },
     {
+      "id": "quran_com_uthmani",
+      "type": "quran_text",
+      "name": "Quran.com — Uthmani (runtime only)",
+      "license": "Quran Foundation Terms 2026-11-20 — runtime fetch, device cache only, no raw data in Git",
+      "url": "https://api.quran.com/api/v4",
+      "bundled": false
+    },
+    {
       "id": "tanzil_metadata",
       "type": "metadata",
       "name": "Tanzil Quran Metadata v1.0",

@@ -151,5 +151,13 @@
   "qiblaDirection": "Arah kiblat",
   "noPrayerTimes": "Pilih kota di pengaturan salat untuk melihat waktu.",
   "messagesCount": "Jumlah dzikir",
-  "recitersUnavailable": "Daftar qari tidak tersedia"
+  "recitersUnavailable": "Daftar qari tidak tersedia",
+  "mushafSource": "Sumber teks Mushaf",
+  "mushafSourceTanzil": "Tanzil Uthmani (tertanam — offline)",
+  "mushafSourceQuranCom": "Quran.com Uthmani (online, lalu disimpan)",
+  "mushafSourceDesc": "Sumber tertanam bekerja sepenuhnya offline. Sumber online mengambil satu halaman sekali lalu menyimpannya di perangkat; data mentahnya tidak pernah disimpan di repositori.",
+  "mushafSourceFallback": "Gagal memuat halaman dari sumber online. Periksa koneksi lalu coba lagi, atau pilih sumber tertanam di pengaturan.",
+  "retry": "Coba lagi",
+  "clearMushafCache": "Hapus teks online yang disimpan",
+  "mushafCacheCleared": "Teks online yang disimpan dihapus"
 }

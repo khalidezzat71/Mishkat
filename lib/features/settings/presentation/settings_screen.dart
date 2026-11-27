@@ -3,8 +3,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mishkat/core/theme_layouts/layout_registry.dart';
 import 'package:mishkat/l10n/generated/app_localizations.dart';
+import 'package:mishkat_core/mishkat_core.dart';
 
 import '../../../app/providers.dart';
+import '../../quran/presentation/quran_providers.dart';
 
 class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({super.key});
@@ -23,6 +25,12 @@ class SettingsScreen extends ConsumerWidget {
     _ => l10n.layoutClassicMushaf,
   };
 
+  String _mushafSourceLabel(AppLocalizations l10n, QuranTextSource source) =>
+      switch (source) {
+        QuranTextSource.tanzilUthmani => l10n.mushafSourceTanzil,
+        QuranTextSource.quranComUthmani => l10n.mushafSourceQuranCom,
+      };
+
   String _themeLabel(AppLocalizations l10n, ThemeMode mode) => switch (mode) {
     ThemeMode.system => l10n.themeSystem,
     ThemeMode.light => l10n.themeLight,
@@ -35,6 +43,7 @@ class SettingsScreen extends ConsumerWidget {
     final locale = ref.watch(localeProvider);
     final themeMode = ref.watch(themeModeProvider);
     final layoutId = ref.watch(layoutIdProvider);
+    final mushafSource = ref.watch(mushafSourceProvider);
     final layout = kLayouts.firstWhere(
       (item) => item.id == layoutId,
       orElse: () => kLayouts.first,
@@ -101,6 +110,45 @@ class SettingsScreen extends ConsumerWidget {
               },
             ),
           ),
+          ListTile(
+            leading: const Icon(Icons.menu_book_outlined),
+            title: Text(l10n.mushafSource),
+            subtitle: Text(_mushafSourceLabel(l10n, mushafSource)),
+            trailing: DropdownButton<QuranTextSource>(
+              value: mushafSource,
+              items: [
+                for (final source in QuranTextSource.values)
+                  DropdownMenuItem<QuranTextSource>(
+                    value: source,
+                    child: Text(_mushafSourceLabel(l10n, source)),
+                  ),
+              ],
+              onChanged: (value) {
+                if (value != null) persistMushafSource(ref, value);
+              },
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Text(
+              l10n.mushafSourceDesc,
+              style: Theme.of(context).textTheme.bodySmall,
+            ),
+          ),
+          if (mushafSource.requiresNetwork)
+            ListTile(
+              leading: const Icon(Icons.delete_outline),
+              title: Text(l10n.clearMushafCache),
+              onTap: () async {
+                await ref.read(databaseProvider).clearMushafTextCache();
+                ref.invalidate(mushafPageProvider);
+                if (context.mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text(l10n.mushafCacheCleared)),
+                  );
+                }
+              },
+            ),
           ListTile(
             leading: const Icon(Icons.access_time_outlined),
             title: Text(l10n.prayerSettings),

@@ -52,6 +52,15 @@ final layoutIdProvider = StateProvider<int>((ref) {
   );
 });
 
+/// مصدر نص المصحف. المدمج هو الافتراض ليعمل التطبيق بلا إنترنت.
+final mushafSourceProvider = StateProvider<QuranTextSource>((ref) {
+  final prefs = ref.watch(preferencesProvider);
+  return prefs.maybeWhen(
+    data: (p) => QuranTextSource.fromId(p.getString('mushafSource') ?? ''),
+    orElse: () => QuranTextSource.tanzilUthmani,
+  );
+});
+
 /// المدينة المختارة. مكة هي الافتراض حتى لا تظهر شاشة فارغة عند التشغيل الأول.
 final selectedCityIdProvider = StateProvider<int>((ref) {
   final prefs = ref.watch(preferencesProvider);
@@ -116,6 +125,12 @@ final databaseProvider = Provider<AppDatabase>((ref) {
 final notificationServiceProvider = Provider<NotificationService>((ref) {
   return NotificationService(FlutterLocalNotificationsPlugin());
 });
+
+Future<void> persistMushafSource(WidgetRef ref, QuranTextSource source) async {
+  final prefs = await ref.read(preferencesProvider.future);
+  await prefs.setString('mushafSource', source.id);
+  ref.read(mushafSourceProvider.notifier).state = source;
+}
 
 Future<void> persistLocale(WidgetRef ref, Locale locale) async {
   final prefs = await ref.read(preferencesProvider.future);

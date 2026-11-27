@@ -18,6 +18,7 @@
 
 | الأصل | المصدر | القيد |
 |---|---|---|
+| نص المصحف العثماني (بديل اختياري) | Quran.com API v4 — `verses/by_page` | يُجلب وقت التشغيل فقط؛ يُخزَّن على الجهاز؛ لا تُضمّن بياناته الخام في repo؛ إسناد Quran Foundation |
 | التفاسير | Quran.com API v4 / Quran Foundation Content Sync | لا تُضمّن في repo؛ كاش ≤ 7 أيام؛ إسناد Quran Foundation |
 | التلاوات | `AudioSource` قابل للتبديل (EveryAyah / Quran Foundation CDN / مصدر مدفوع لاحقاً) | تنزيل بطلب المستخدم، تخزين خاص، إسناد القارئ |
 | الخط | KFGQPC Uthmanic Script Hafs | EULA: استخدام وتوزيع مجاني **بشرط عدم التعديل أو البيع**؛ يُضاف كما هو |
