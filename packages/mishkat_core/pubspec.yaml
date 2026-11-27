@@ -1,0 +1,19 @@
+name: mishkat_core
+description: Pure-Dart domain algorithms for Mishkat (Qibla, Hijri, SM-2, Arabic search normalization, Quran integrity).
+version: 0.1.0
+publish_to: none
+
+environment:
+  sdk: ">=3.5.0 <4.0.0"
+
+dependencies:
+  crypto: ^3.0.3
+  xml: ^6.5.0
+  path: ^1.9.0
+  adhan_dart: ^2.0.2
+  timezone: ^0.11.2
+  encrypt: ^5.0.3
+
+dev_dependencies:
+  lints: ^5.0.0
+  test: ^1.25.0

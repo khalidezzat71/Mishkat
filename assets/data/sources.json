@@ -1,0 +1,46 @@
+{
+  "version": 1,
+  "policy": "free_first_sunni_only",
+  "sources": [
+    {
+      "id": "tanzil_uthmani",
+      "type": "quran_text",
+      "name": "Tanzil Project — Uthmani v1.1",
+      "license": "CC BY 3.0 (verbatim only)",
+      "url": "https://tanzil.net",
+      "bundled": true
+    },
+    {
+      "id": "tanzil_metadata",
+      "type": "metadata",
+      "name": "Tanzil Quran Metadata v1.0",
+      "license": "CC BY 3.0",
+      "url": "https://tanzil.net/res/text/metadata/quran-data.xml",
+      "bundled": true
+    },
+    {
+      "id": "adhan_dart",
+      "type": "prayer_engine",
+      "name": "adhan_dart",
+      "license": "MIT",
+      "url": "https://pub.dev/packages/adhan_dart",
+      "bundled": true
+    },
+    {
+      "id": "quran_foundation_content_sync",
+      "type": "tafsir",
+      "name": "Quran Foundation Content Sync",
+      "license": "Terms 2026-11-20 — runtime only, cache ≤ 7 days",
+      "url": "https://quran.com",
+      "bundled": false
+    },
+    {
+      "id": "kfgqpc_hafs",
+      "type": "font",
+      "name": "KFGQPC Uthmanic Script Hafs",
+      "license": "EULA — free use, no modification, no sale",
+      "url": "http://fonts.qurancomplex.gov.sa",
+      "bundled": false
+    }
+  ]
+}

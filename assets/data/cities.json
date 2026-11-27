@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "source": "offline manual city list — no coordinates are ever transmitted",
+  "cities": [
+    {"id": 1, "name_ar": "مكة المكرمة", "name_en": "Makkah", "country": "SA", "lat": 21.4225, "lng": 39.8262, "tz": "Asia/Riyadh"},
+    {"id": 2, "name_ar": "المدينة المنورة", "name_en": "Madinah", "country": "SA", "lat": 24.7136, "lng": 39.6750, "tz": "Asia/Riyadh"},
+    {"id": 3, "name_ar": "الرياض", "name_en": "Riyadh", "country": "SA", "lat": 24.7136, "lng": 46.6753, "tz": "Asia/Riyadh"},
+    {"id": 4, "name_ar": "القاهرة", "name_en": "Cairo", "country": "EG", "lat": 30.0444, "lng": 31.2357, "tz": "Africa/Cairo"},
+    {"id": 5, "name_ar": "لندن", "name_en": "London", "country": "GB", "lat": 51.5074, "lng": -0.1278, "tz": "Europe/London"},
+    {"id": 6, "name_ar": "جاكرتا", "name_en": "Jakarta", "country": "ID", "lat": -6.2088, "lng": 106.8456, "tz": "Asia/Jakarta"},
+    {"id": 7, "name_ar": "كراتشي", "name_en": "Karachi", "country": "PK", "lat": 24.8607, "lng": 67.0011, "tz": "Asia/Karachi"},
+    {"id": 8, "name_ar": "نيويورك", "name_en": "New York", "country": "US", "lat": 40.7128, "lng": -74.0060, "tz": "America/New_York"}
+  ]
+}

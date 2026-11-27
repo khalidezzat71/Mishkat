@@ -1,0 +1,13 @@
+.dart_tool/
+.packages
+pubspec.lock
+build/
+.dart_cache/
+.flutter-plugins
+.flutter-plugins-dependencies
+*.log
+.DS_Store
+android/.gradle/
+android/local.properties
+ios/Pods/
+coverage/

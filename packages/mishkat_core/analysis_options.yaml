@@ -1,0 +1,11 @@
+include: package:lints/recommended.yaml
+
+analyzer:
+  errors:
+    todo: ignore
+
+linter:
+  rules:
+    always_declare_return_types: true
+    avoid_print: true
+    prefer_final_locals: true

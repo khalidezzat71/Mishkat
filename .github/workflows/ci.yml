@@ -1,0 +1,52 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  core:
+    name: Pure Dart core (no Flutter needed)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: packages/mishkat_core
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dart-lang/setup-dart@v1
+        with:
+          sdk: stable
+      - run: dart pub get
+      - run: dart analyze --fatal-infos
+      - run: dart test
+
+  flutter:
+    name: Flutter analyze and tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: "3.24.5"
+      - run: flutter pub get
+      - run: flutter gen-l10n
+      - run: dart run build_runner build --delete-conflicting-outputs
+      - run: dart format --output=none --set-exit-if-changed lib test packages
+      - run: flutter analyze
+      - run: flutter test
+
+  integrity:
+    name: Quran dataset integrity
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: packages/mishkat_core
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dart-lang/setup-dart@v1
+        with:
+          sdk: stable
+      - run: dart pub get
+      - run: dart test test/quran_integrity_test.dart
