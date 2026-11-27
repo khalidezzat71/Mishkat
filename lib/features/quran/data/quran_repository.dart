@@ -182,7 +182,7 @@ class QuranRepository {
         .get();
     final pageBySurah = {
       for (final row in starts)
-        row.read<int>('surah_id')!: row.read<int>('page_start')!,
+        row.read<int>('surah_id'): row.read<int>('page_start'),
     };
     final rows = await (_db.select(_db.surahs)
           ..orderBy([(s) => OrderingTerm.asc(s.id)]))

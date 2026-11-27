@@ -2,7 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mishkat_core/mishkat_core.dart';
 import 'package:timezone/timezone.dart' as tz;
 
-import '../../app/providers.dart';
+import '../../../app/providers.dart';
 import 'prayer_provider.dart';
 
 /// طابور الإشعارات المحلي: 57 إشعاراً كحد أقصى، يُعاد بناؤه عند كل تشغيل

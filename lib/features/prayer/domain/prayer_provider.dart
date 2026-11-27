@@ -2,7 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mishkat_core/mishkat_core.dart';
 import 'package:timezone/timezone.dart' as tz;
 
-import '../../app/providers.dart';
+import '../../../app/providers.dart';
 
 const prayerTimesService = PrayerTimesService();
 
