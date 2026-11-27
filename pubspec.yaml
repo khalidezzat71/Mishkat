@@ -57,6 +57,7 @@ dependencies:
 dependency_overrides:
   web: ^1.0.0
   geolocator_android: 4.5.5
+  record_android: 1.4.5
 
 dev_dependencies:
   flutter_test:
