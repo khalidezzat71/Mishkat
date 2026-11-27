@@ -2,7 +2,7 @@
 enum NavigationStyle { bottomBar, topTabs, floatingDock, radial, none }
 
 class LayoutDefinition {
-  const LayoutDefinition({
+  LayoutDefinition({
     required this.id,
     required this.key,
     required this.navigationStyle,
@@ -18,61 +18,61 @@ class LayoutDefinition {
 }
 
 const List<LayoutDefinition> kLayouts = [
-  const LayoutDefinition(
+  LayoutDefinition(
     id: 1,
     key: 'layoutClassicMushaf',
     navigationStyle: NavigationStyle.bottomBar,
     density: 0,
   ),
-  const LayoutDefinition(
+  LayoutDefinition(
     id: 2,
     key: 'layoutBento',
     navigationStyle: NavigationStyle.bottomBar,
     density: 0,
   ),
-  const LayoutDefinition(
+  LayoutDefinition(
     id: 3,
     key: 'layoutKalaRadial',
     navigationStyle: NavigationStyle.floatingDock,
     density: 0,
   ),
-  const LayoutDefinition(
+  LayoutDefinition(
     id: 4,
     key: 'layoutTahajjudOled',
     navigationStyle: NavigationStyle.bottomBar,
     density: 0,
   ),
-  const LayoutDefinition(
+  LayoutDefinition(
     id: 5,
     key: 'layoutMihrabGlass',
     navigationStyle: NavigationStyle.bottomBar,
     density: 0,
   ),
-  const LayoutDefinition(
+  LayoutDefinition(
     id: 6,
     key: 'layoutPillarsZen',
     navigationStyle: NavigationStyle.none,
     density: 0,
   ),
-  const LayoutDefinition(
+  LayoutDefinition(
     id: 7,
     key: 'layoutQuranCompact',
     navigationStyle: NavigationStyle.topTabs,
     density: 1,
   ),
-  const LayoutDefinition(
+  LayoutDefinition(
     id: 8,
     key: 'layoutTarteelEditorial',
     navigationStyle: NavigationStyle.topTabs,
     density: 0,
   ),
-  const LayoutDefinition(
+  LayoutDefinition(
     id: 9,
     key: 'layoutNusukAccessible',
     navigationStyle: NavigationStyle.bottomBar,
     density: 2,
   ),
-  const LayoutDefinition(
+  LayoutDefinition(
     id: 10,
     key: 'layoutMaterialYou',
     navigationStyle: NavigationStyle.bottomBar,

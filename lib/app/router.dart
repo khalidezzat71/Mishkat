@@ -117,7 +117,8 @@ class NavigationShell extends ConsumerWidget {
       _ => 1.0,
     };
     final body = MediaQuery(
-      data: MediaQuery.of(context).copyWith(textScaleFactor: scale),
+      data: MediaQuery.of(context)
+          .copyWith(textScaler: TextScaler.linear(scale)),
       child: child,
     );
 

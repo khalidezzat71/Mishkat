@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mishkat/core/ai/recitation_proxy.dart';
 import 'package:mishkat/core/ai/word_sync_proxy.dart';
 import 'package:mishkat/core/database/app_database.dart';
-import 'package:mishkat/core/database/tables.dart';
 import 'package:mishkat/core/gaze/gaze_controller.dart';
 import 'package:mishkat/core/gaze/gaze_source.dart';
 import 'package:mishkat/core/settings/opt_in_providers.dart';

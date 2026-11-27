@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:drift/drift.dart';
 import 'package:flutter/services.dart';
 import 'package:mishkat/core/database/app_database.dart';
-import 'package:mishkat/core/database/tables.dart';
 import 'package:mishkat_core/mishkat_core.dart';
 
 /// يحمّل بيانات Tanzil المدمجة ويبني فهرس FTS5 مرة واحدة عند أول تشغيل.
