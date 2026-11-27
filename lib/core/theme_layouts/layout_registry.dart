@@ -2,7 +2,7 @@
 enum NavigationStyle { bottomBar, topTabs, floatingDock, radial, none }
 
 class LayoutDefinition {
-  LayoutDefinition({
+  const LayoutDefinition({
     required this.id,
     required this.key,
     required this.navigationStyle,
