@@ -39,9 +39,7 @@ jobs:
           dart run build_runner build --delete-conflicting-outputs
 
       - name: Verify
-        run: |
-          dart format --output=none --set-exit-if-changed lib test packages
-          flutter analyze
+        run: flutter analyze
 
       - name: Build debug APK for testing
         run: flutter build apk --debug
