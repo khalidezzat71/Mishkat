@@ -28,7 +28,7 @@ dependencies:
   adhan_dart: ^2.0.0
   flutter_local_notifications: ^17.2.2
   timezone: ^0.9.4
-  workmanager: ^0.5.2
+  workmanager: ^0.10.10
   home_widget: ^0.7.0
 
   shared_preferences: ^2.3.0
