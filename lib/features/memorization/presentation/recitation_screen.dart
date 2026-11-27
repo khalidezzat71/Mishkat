@@ -95,7 +95,7 @@ class _RecitationScreenState extends ConsumerState<RecitationScreen> {
             matched: outcome.grade.matched,
             substituted: outcome.grade.substituted,
             omitted: outcome.grade.omitted,
-            createdAt: Value(DateTime.now()),
+            createdAt: DateTime.now(),
           ),
         );
     setState(() {

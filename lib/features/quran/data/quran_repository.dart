@@ -54,7 +54,7 @@ class QuranRepository {
           batch.insert(
             _db.surahs,
             SurahsCompanion.insert(
-              id: s['id'] as int,
+              id: Value(s['id'] as int),
               nameAr: s['nameAr'] as String,
               nameEn: Value(s['nameEn'] as String?),
               revelationType: s['revelationType'] as String,
@@ -68,7 +68,7 @@ class QuranRepository {
           batch.insert(
             _db.ayahs,
             AyahsCompanion.insert(
-              id: a['id'] as int,
+              id: Value(a['id'] as int),
               surahId: a['surahId'] as int,
               ayahNo: a['ayahNo'] as int,
               page: a['page'] as int,

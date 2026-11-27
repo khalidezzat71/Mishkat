@@ -84,7 +84,7 @@ class TafsirRepository {
             TafsirTextsCompanion.insert(
               tafsirId: tafsirId,
               ayahId: ayahId,
-              text: text,
+              textValue: text,
             ),
           );
       return text;

@@ -121,7 +121,7 @@ class ReciterRepository {
                 path: target.path,
                 bytes: bytes.length,
                 sha256: sha,
-                lastAccessedAt: Value(DateTime.now()),
+                lastAccessedAt: DateTime.now(),
               ),
             );
       } else {
@@ -132,7 +132,7 @@ class ReciterRepository {
             path: Value(target.path),
             bytes: Value(bytes.length),
             sha256: Value(sha),
-            lastAccessedAt: Value(DateTime.now()),
+            lastAccessedAt: DateTime.now(),
           ),
         );
       }
