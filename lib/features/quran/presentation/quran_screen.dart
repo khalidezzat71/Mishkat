@@ -306,8 +306,9 @@ class _QuranScreenState extends ConsumerState<QuranScreen> {
                               ),
                               error: (_, __) => const SizedBox.shrink(),
                               data: (value) {
-                                if (value == null)
+                                if (value == null) {
                                   return const SizedBox.shrink();
+                                }
                                 return ListTile(
                                   leading: CircleAvatar(
                                     child: Text('${index + 1}'),
