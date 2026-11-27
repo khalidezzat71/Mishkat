@@ -18,14 +18,64 @@ class LayoutDefinition {
 }
 
 const List<LayoutDefinition> kLayouts = [
-  LayoutDefinition(1, 'layoutClassicMushaf', NavigationStyle.bottomBar, 0),
-  LayoutDefinition(2, 'layoutBento', NavigationStyle.bottomBar, 0),
-  LayoutDefinition(3, 'layoutKalaRadial', NavigationStyle.floatingDock, 0),
-  LayoutDefinition(4, 'layoutTahajjudOled', NavigationStyle.bottomBar, 0),
-  LayoutDefinition(5, 'layoutMihrabGlass', NavigationStyle.bottomBar, 0),
-  LayoutDefinition(6, 'layoutPillarsZen', NavigationStyle.none, 0),
-  LayoutDefinition(7, 'layoutQuranCompact', NavigationStyle.topTabs, 1),
-  LayoutDefinition(8, 'layoutTarteelEditorial', NavigationStyle.topTabs, 0),
-  LayoutDefinition(9, 'layoutNusukAccessible', NavigationStyle.bottomBar, 2),
-  LayoutDefinition(10, 'layoutMaterialYou', NavigationStyle.bottomBar, 0),
+  const LayoutDefinition(
+    id: 1,
+    key: 'layoutClassicMushaf',
+    navigationStyle: NavigationStyle.bottomBar,
+    density: 0,
+  ),
+  const LayoutDefinition(
+    id: 2,
+    key: 'layoutBento',
+    navigationStyle: NavigationStyle.bottomBar,
+    density: 0,
+  ),
+  const LayoutDefinition(
+    id: 3,
+    key: 'layoutKalaRadial',
+    navigationStyle: NavigationStyle.floatingDock,
+    density: 0,
+  ),
+  const LayoutDefinition(
+    id: 4,
+    key: 'layoutTahajjudOled',
+    navigationStyle: NavigationStyle.bottomBar,
+    density: 0,
+  ),
+  const LayoutDefinition(
+    id: 5,
+    key: 'layoutMihrabGlass',
+    navigationStyle: NavigationStyle.bottomBar,
+    density: 0,
+  ),
+  const LayoutDefinition(
+    id: 6,
+    key: 'layoutPillarsZen',
+    navigationStyle: NavigationStyle.none,
+    density: 0,
+  ),
+  const LayoutDefinition(
+    id: 7,
+    key: 'layoutQuranCompact',
+    navigationStyle: NavigationStyle.topTabs,
+    density: 1,
+  ),
+  const LayoutDefinition(
+    id: 8,
+    key: 'layoutTarteelEditorial',
+    navigationStyle: NavigationStyle.topTabs,
+    density: 0,
+  ),
+  const LayoutDefinition(
+    id: 9,
+    key: 'layoutNusukAccessible',
+    navigationStyle: NavigationStyle.bottomBar,
+    density: 2,
+  ),
+  const LayoutDefinition(
+    id: 10,
+    key: 'layoutMaterialYou',
+    navigationStyle: NavigationStyle.bottomBar,
+    density: 0,
+  ),
 ];

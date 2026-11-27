@@ -68,7 +68,7 @@ class TafsirTexts extends Table {
   IntColumn get tafsirId =>
       integer().named('tafsir_id').references(Tafsirs, #id)();
   IntColumn get ayahId => integer().named('ayah_id').references(Ayahs, #id)();
-  TextColumn get text => text()();
+  TextColumn get textValue => text().named('text')();
   @override
   Set<Column> get primaryKey => {tafsirId, ayahId};
 }
@@ -77,7 +77,7 @@ class TafsirTexts extends Table {
 class Athkar extends Table {
   IntColumn get id => integer().autoIncrement()();
   TextColumn get category => text()();
-  TextColumn get text => text()();
+  TextColumn get textValue => text().named('text')();
   IntColumn get repeatCount =>
       integer().named('repeat_count').withDefault(const Constant(1))();
   TextColumn get virtue => text().nullable()();

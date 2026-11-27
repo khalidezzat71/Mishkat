@@ -35,7 +35,7 @@ class TafsirRepository {
               (t) => t.tafsirId.equals(tafsir.id) & t.ayahId.equals(ayahId),
             ))
             .get();
-    return rows.isEmpty ? null : rows.first.text;
+    return rows.isEmpty ? null : rows.first.textValue;
   }
 
   /// يجلب التفسير عند الاتصال، ويعيد null بأمان عند تعذّر الشبكة.
@@ -49,7 +49,7 @@ class TafsirRepository {
     try {
       final response = await _client.get<String>(
         '$baseUrl/tafsirs/${edition.id}/by_ayah/$ayahId',
-        options: Options(responseType: ResponseType.string),
+        options: Options(responseType: ResponseType.plain),
       );
       final decoded = jsonDecode(response.data ?? '{}') as Map<String, dynamic>;
       final text =

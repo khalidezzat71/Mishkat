@@ -20,7 +20,7 @@ dependencies:
   riverpod_annotation: ^2.3.5
   go_router: ^14.6.1
 
-  drift: 2.19.2
+  drift: 2.19.1
   drift_flutter: 0.2.0
   sqlite3_flutter_libs: ^0.5.24
   path_provider: ^2.1.4
@@ -53,6 +53,9 @@ dependencies:
   url_launcher: ^6.3.0
   package_info_plus: ^8.0.0
   device_info_plus: ^10.1.2
+
+dependency_overrides:
+  web: ^1.0.0
 
 dev_dependencies:
   flutter_test:
