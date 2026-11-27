@@ -105,5 +105,10 @@
   "qualityMastered": "مہارت",
   "qualityGood": "اچھا",
   "qualityNeedsReview": "نظرِ ثانی چاہیے",
-  "gazePermissionDenied": "نگاہ سے باخبر رہنا فعال نہیں ہو سکا"
+  "gazePermissionDenied": "نگاہ سے باخبر رہنا فعال نہیں ہو سکا",
+  "filterByJuz": "پارہ",
+  "filterBySurah": "سورہ",
+  "filterByPage": "صفحہ",
+  "allJuz": "تمام پارے",
+  "clearFilters": "فلٹر صاف کریں"
 }

@@ -105,5 +105,10 @@
   "qualityMastered": "Dikuasai",
   "qualityGood": "Baik",
   "qualityNeedsReview": "Perlu diulang",
-  "gazePermissionDenied": "Pelacakan tatapan tidak dapat diaktifkan"
+  "gazePermissionDenied": "Pelacakan tatapan tidak dapat diaktifkan",
+  "filterByJuz": "Juz",
+  "filterBySurah": "Surah",
+  "filterByPage": "Halaman",
+  "allJuz": "Semua juz",
+  "clearFilters": "Hapus filter"
 }

@@ -25,6 +25,18 @@ final quranSearchProvider = FutureProvider.family<List<int>, String>((
   return ref.watch(quranRepositoryProvider).search(query);
 });
 
+typedef QuranQuery = ({String term, AyahFilter filter});
+
+/// بحث محلي بالكامل: FTS5 ثم فلترة سورة/جزء/صفحة/حزب على الجهاز.
+final quranFilteredSearchProvider =
+    FutureProvider.family<List<int>, QuranQuery>((ref, query) async {
+      if (query.term.trim().isEmpty) return <int>[];
+      await ref.watch(quranReadyProvider.future);
+      return ref
+          .watch(quranRepositoryProvider)
+          .search(query.term, filter: query.filter);
+    });
+
 /// النص الحرفي من Tanzil — لا يُعدَّل عند البحث ولا عند العرض.
 final ayahTextProvider = FutureProvider.family<String?, int>((
   ref,

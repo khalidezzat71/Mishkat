@@ -39,6 +39,15 @@ void main() {
       );
     });
 
+    test('فلاتر متساوية القيم تُعدّ متطابقة لتجنّب إعادة البحث', () {
+      expect(const AyahFilter(surahId: 1), const AyahFilter(surahId: 1));
+      expect(
+        const AyahFilter(surahId: 1).hashCode,
+        const AyahFilter(surahId: 1).hashCode,
+      );
+      expect(const AyahFilter(surahId: 1), isNot(const AyahFilter(surahId: 2)));
+    });
+
     test('القيم خارج النطاق تُرفض قبل التنفيذ', () {
       expect(
           () => const AyahFilter(surahId: 115).validate(), throwsArgumentError);

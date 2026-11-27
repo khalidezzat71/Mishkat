@@ -108,5 +108,10 @@
   "qualityMastered": "متقن",
   "qualityGood": "جيد",
   "qualityNeedsReview": "يحتاج مراجعة",
-  "gazePermissionDenied": "تعذّر تفعيل تتبّع النظر"
+  "gazePermissionDenied": "تعذّر تفعيل تتبّع النظر",
+  "filterByJuz": "الجزء",
+  "filterBySurah": "السورة",
+  "filterByPage": "الصفحة",
+  "allJuz": "كل الأجزاء",
+  "clearFilters": "مسح الفلاتر"
 }

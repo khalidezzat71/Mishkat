@@ -43,6 +43,17 @@ class AyahFilter {
     }
   }
 
+  @override
+  bool operator ==(Object other) =>
+      other is AyahFilter &&
+      other.surahId == surahId &&
+      other.juz == juz &&
+      other.page == page &&
+      other.hizb == hizb;
+
+  @override
+  int get hashCode => Object.hash(surahId, juz, page, hizb);
+
   bool matches(AyahMetadata ayah) =>
       (surahId == null || ayah.surahId == surahId) &&
       (juz == null || ayah.juz == juz) &&

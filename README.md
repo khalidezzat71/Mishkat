@@ -55,3 +55,9 @@ assets/quran/            نص Tanzil v1.1 + بياناته الوصفية (حر�
 ## حالة التقدم
 
 انظر [`PROGRESS.md`](PROGRESS.md). المرحلة الأولى (MVP) قيد البناء.
+
+## فلاتر البحث المحلية
+
+أُضيفت فلترة سورة/جزء/صفحة/حزب بالكامل على الجهاز:
+`AyahFilter` و`applyAyahFilter` في `mishkat_core`، و`quranFilteredSearchProvider`
+والواجهة في شاشة القرآن. لا تُرسل الفلاتر لأي خادم.

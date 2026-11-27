@@ -4,6 +4,7 @@ import 'package:drift/drift.dart';
 import 'package:flutter/services.dart';
 import 'package:mishkat/core/database/app_database.dart';
 import 'package:mishkat/core/database/tables.dart';
+import 'package:mishkat_core/mishkat_core.dart';
 
 /// يحمّل بيانات Tanzil المدمجة ويبني فهرس FTS5 مرة واحدة عند أول تشغيل.
 class QuranRepository {
@@ -102,7 +103,28 @@ class QuranRepository {
     });
   }
 
-  Future<List<int>> search(String term) => _db.searchAyahIds(term);
+  /// البحث الكامل محلياً عبر FTS5، ثم تصفية النتائج على الجهاز también.
+  Future<List<int>> search(String term, {AyahFilter? filter}) async {
+    final ids = await _db.searchAyahIds(term);
+    if (filter == null || filter.isEmpty) return ids;
+    filter.validate();
+
+    Expression<bool>? condition;
+    void add(Expression<bool> expression) {
+      condition = condition == null ? expression : condition! & expression;
+    }
+
+    if (filter.surahId != null) {
+      add(_db.ayahs.surahId.equals(filter.surahId!));
+    }
+    if (filter.juz != null) add(_db.ayahs.juz.equals(filter.juz!));
+    if (filter.page != null) add(_db.ayahs.page.equals(filter.page!));
+    if (filter.hizb != null) add(_db.ayahs.hizb.equals(filter.hizb!));
+
+    final rows = await (_db.select(_db.ayahs)..where((a) => condition!)).get();
+    final allowed = rows.map((row) => row.id).toSet();
+    return ids.where(allowed.contains).toList();
+  }
 
   /// المرجع المحلي للآية لتوقيتات الكلمات — لا اتصال شبكي هنا.
   Future<({int surah, int ayah})?> referenceFor(int id) async {

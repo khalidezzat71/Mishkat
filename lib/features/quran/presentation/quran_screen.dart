@@ -17,18 +17,39 @@ class QuranScreen extends ConsumerStatefulWidget {
 
 class _QuranScreenState extends ConsumerState<QuranScreen> {
   final _controller = TextEditingController();
+  final _surahController = TextEditingController();
+  final _pageController = TextEditingController();
+  int? _selectedJuz;
   int? _selectedAyahId;
 
   @override
   void dispose() {
     _controller.dispose();
+    _surahController.dispose();
+    _pageController.dispose();
     super.dispose();
   }
+
+  int? _bounded(String text, int min, int max) {
+    final value = int.tryParse(text.trim());
+    return value != null && value >= min && value <= max ? value : null;
+  }
+
+  AyahFilter get _localFilter => AyahFilter(
+    surahId: _bounded(_surahController.text, 1, 114),
+    juz: _selectedJuz,
+    page: _bounded(_pageController.text, 1, 604),
+  );
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final results = ref.watch(quranSearchProvider(_controller.text.trim()));
+    final results = ref.watch(
+      quranFilteredSearchProvider((
+        term: _controller.text.trim(),
+        filter: _localFilter,
+      )),
+    );
     final tafsirEnabled = ref.watch(optInProvider(OptInKey.tafsir));
     final wordSyncEnabled = ref.watch(optInProvider(OptInKey.wordSync));
     final selected = _selectedAyahId;
@@ -47,6 +68,58 @@ class _QuranScreenState extends ConsumerState<QuranScreen> {
                 prefixIcon: const Icon(Icons.search),
               ),
               onChanged: (_) => setState(() {}),
+            ),
+            Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              crossAxisAlignment: WrapCrossAlignment.center,
+              children: [
+                SizedBox(
+                  width: 120,
+                  child: TextField(
+                    controller: _surahController,
+                    keyboardType: TextInputType.number,
+                    decoration: InputDecoration(
+                      labelText: l10n.filterBySurah,
+                      isDense: true,
+                    ),
+                    onChanged: (_) => setState(() {}),
+                  ),
+                ),
+                DropdownButton<int?>(
+                  value: _selectedJuz,
+                  hint: Text(l10n.filterByJuz),
+                  items: [
+                    DropdownMenuItem<int?>(
+                      value: null,
+                      child: Text(l10n.allJuz),
+                    ),
+                    for (var juz = 1; juz <= 30; juz++)
+                      DropdownMenuItem<int?>(value: juz, child: Text('$juz')),
+                  ],
+                  onChanged: (value) => setState(() => _selectedJuz = value),
+                ),
+                SizedBox(
+                  width: 100,
+                  child: TextField(
+                    controller: _pageController,
+                    keyboardType: TextInputType.number,
+                    decoration: InputDecoration(
+                      labelText: l10n.filterByPage,
+                      isDense: true,
+                    ),
+                    onChanged: (_) => setState(() {}),
+                  ),
+                ),
+                TextButton(
+                  onPressed: () => setState(() {
+                    _surahController.clear();
+                    _pageController.clear();
+                    _selectedJuz = null;
+                  }),
+                  child: Text(l10n.clearFilters),
+                ),
+              ],
             ),
             if (ref.watch(optInProvider(OptInKey.wordSync)) &&
                 !isAiProxyConfigured)

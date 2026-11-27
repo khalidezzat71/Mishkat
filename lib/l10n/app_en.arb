@@ -105,5 +105,10 @@
   "qualityMastered": "Mastered",
   "qualityGood": "Good",
   "qualityNeedsReview": "Needs review",
-  "gazePermissionDenied": "Eye tracking could not be enabled"
+  "gazePermissionDenied": "Eye tracking could not be enabled",
+  "filterByJuz": "Juz",
+  "filterBySurah": "Surah",
+  "filterByPage": "Page",
+  "allJuz": "All juz",
+  "clearFilters": "Clear filters"
 }

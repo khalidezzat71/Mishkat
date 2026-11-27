@@ -139,3 +139,9 @@
 
 ترجمة قوالب Glance/WidgetKit، تتبّع نظر بالكاميرا، تشغيل `flutter analyze/test/build`،
 وحلقات العائلية عند طلب صريح. انظر `ROADMAP.md`.
+
+## فلاتر البحث المحلية
+
+أُضيفت فلترة سورة/جزء/صفحة/حزب بالكامل على الجهاز:
+`AyahFilter` و`applyAyahFilter` في `mishkat_core`، و`quranFilteredSearchProvider`
+والواجهة في شاشة القرآن. لا تُرسل الفلاتر لأي خادم.

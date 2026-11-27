@@ -105,5 +105,10 @@
   "qualityMastered": "Maîtrisé",
   "qualityGood": "Bien",
   "qualityNeedsReview": "À revoir",
-  "gazePermissionDenied": "Suivi du regard indisponible"
+  "gazePermissionDenied": "Suivi du regard indisponible",
+  "filterByJuz": "Juz",
+  "filterBySurah": "Sourate",
+  "filterByPage": "Page",
+  "allJuz": "Tous les juz",
+  "clearFilters": "Effacer les filtres"
 }
